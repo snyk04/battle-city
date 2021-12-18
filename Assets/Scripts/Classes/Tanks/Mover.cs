@@ -5,16 +5,17 @@ namespace BattleCity.Tanks
 {
     public class Mover
     {
+        private readonly float _speed;
+        
         private readonly Rigidbody _rigidbody;
         private readonly Transform _transform;
-
-        private readonly float _speed;
-
-        public Mover(Rigidbody rigidbody, Transform transform, float speed)
+        
+        public Mover(float speed, Rigidbody rigidbody, Transform transform)
         {
+            _speed = speed;
+
             _rigidbody = rigidbody;
             _transform = transform;
-            _speed = speed;
         }
         
         public void StartMoving(Vector2 direction)

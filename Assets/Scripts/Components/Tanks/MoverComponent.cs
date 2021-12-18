@@ -12,7 +12,7 @@ namespace BattleCity.Tanks
         private void Awake()
         {
             var rb = GetComponent<Rigidbody>();
-            Mover = new Mover(rb, transform, _speed);
+            Mover = new Mover(_speed, rb, transform);
         }
     }
 }
