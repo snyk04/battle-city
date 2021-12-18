@@ -2,6 +2,7 @@
 
 namespace BattleCity.Tanks
 {
+    [RequireComponent(typeof(BoxCollider))]
     public class DamageableComponent : MonoBehaviour
     {
         [SerializeField] private int _amountOfHealth;

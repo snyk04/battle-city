@@ -2,6 +2,8 @@
 
 namespace BattleCity.Tanks
 {
+    [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(Rigidbody))]
     public class BulletComponent : MonoBehaviour
     {
         public Bullet Bullet { get; private set; }

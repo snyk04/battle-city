@@ -39,7 +39,7 @@ namespace BattleCity.Tanks
             var bulletComponent = bullet.GetComponent<BulletComponent>();
             bulletComponent.Initialize(_bulletDamage, _gameObject);
             
-            bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * _transform.forward;
+            bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * _muzzleHole.forward;
         }
     }
 }
