@@ -1,4 +1,5 @@
-﻿using BattleCity.Tanks;
+﻿using BattleCity.GameLoop;
+using BattleCity.Tanks;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -7,9 +8,9 @@ namespace BattleCity.AI
     {
         public IState State { get; set; }
 
-        public Bot(Mover mover, Transform transform)
+        public Bot(Mover mover, Transform transform, ICurrentPlayerTracker currentPlayerTracker)
         {
-            var botInfo = new BotInfo(this, mover, transform);
+            var botInfo = new BotInfo(this, mover, transform, currentPlayerTracker);
             
             State = new KillPlayerState(botInfo);
         }
