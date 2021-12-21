@@ -18,8 +18,8 @@ namespace BattleCity.GameLoop
         }
         private void OnValidate()
         {
-            if (!_playerPrefab.TryGetComponent(out MovementInput movementInput)
-                || !_playerPrefab.TryGetComponent(out ShootingInput shootingInput)
+            if (!_playerPrefab.TryGetComponent(out MovementInputComponent movementInput)
+                || !_playerPrefab.TryGetComponent(out ShootingInputComponent shootingInput)
                 || !_playerPrefab.TryGetComponent(out DamageableComponent damageableComponent)
                 || !_playerPrefab.TryGetComponent(out MoverComponent moverComponent)
                 || !_playerPrefab.TryGetComponent(out ShooterComponent shooterComponent))
