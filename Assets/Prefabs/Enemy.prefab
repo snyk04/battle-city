@@ -13,13 +13,11 @@ GameObject:
   - component: {fileID: 5998874276354710558}
   - component: {fileID: 5998874276354710528}
   - component: {fileID: 5998874276354710529}
-  - component: {fileID: -2474633127919247783}
   - component: {fileID: 5998874276354710531}
   - component: {fileID: 855622178339772207}
-  - component: {fileID: 5998874276354710530}
-  - component: {fileID: 2662148136569643476}
-  m_Layer: 2
-  m_Name: Player
+  - component: {fileID: 6694327779775680307}
+  m_Layer: 0
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,19 +119,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2474633127919247783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5998874276354710532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bc9429058c94e9380e1054312891c3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _amountOfHealth: 1
 --- !u!114 &5998874276354710531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +148,7 @@ MonoBehaviour:
   _bulletDamage: 1
   _bulletSpeed: 5
   _muzzleHole: {fileID: 2067013204048697864}
---- !u!114 &5998874276354710530
+--- !u!114 &6694327779775680307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,21 +157,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5998874276354710532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50af1c10a0c041d28c95bc93928dcfb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a56ce2da4d94fb89b1e469371680215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2662148136569643476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5998874276354710532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb536e4700ea4730af3a27cebdd04d1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _playerSpawner: {fileID: 0}
+  _levelWallsLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _shotDelay: 1
 --- !u!1 &6750130476148582055
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2067013204048697864}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: MuzzleHole
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}

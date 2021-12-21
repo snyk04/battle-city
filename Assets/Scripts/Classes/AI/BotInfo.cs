@@ -8,15 +8,25 @@ namespace BattleCity.AI
     {
         public readonly IBot Bot;
         public readonly Mover Mover;
+        public readonly Shooter Shooter;
         public readonly Transform Transform;
         public readonly ICurrentPlayerTracker CurrentPlayerTracker;
+        public readonly LayerMask LevelWallsLayerMask;
+        public readonly float PauseBeforeShot;
+        public readonly float PauseAfterShot;
 
-        public BotInfo(IBot bot, Mover mover, Transform transform, ICurrentPlayerTracker currentPlayerTracker)
+        public Vector3 Position => Transform.position;
+
+        public BotInfo(IBot bot, Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, float pauseBeforeShot, float pauseAfterShot)
         {
             Bot = bot;
             Mover = mover;
+            Shooter = shooter;
             Transform = transform;
             CurrentPlayerTracker = currentPlayerTracker;
+            LevelWallsLayerMask = levelWallsLayerMask;
+            PauseBeforeShot = pauseBeforeShot;
+            PauseAfterShot = pauseAfterShot;
         }
     }
 }
