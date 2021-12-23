@@ -1,17 +1,13 @@
-﻿using BattleCity.GameLoop;
-using BattleCity.Tanks;
-using UnityEngine;
-
-namespace BattleCity.AI
+﻿namespace BattleCity.AI
 {
     public class Bot : IBot
     {
         public IState State { get; set; }
 
-        public Bot(Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot)
+        public Bot(BotInfo botInfo)
         {
-            var botInfo = new BotInfo(this, mover, shooter, transform, currentPlayerTracker, levelWallsLayerMask, tanksLayerMask, pauseBeforeShot, pauseAfterShot);
-            
+            botInfo.OnStateChange += state => State = state;
+
             State = new KillPlayerState(botInfo);
         }
 

@@ -22,7 +22,10 @@ namespace BattleCity.AI
             Shooter shooter = GetComponent<ShooterComponent>().Shooter;
             ICurrentPlayerTracker currentPlayerTracker = _playerSpawner.PlayerSpawner;
             
-            Bot = new Bot(mover, shooter, transform, currentPlayerTracker, _levelWallsLayerMask, _tanksLayerMask, _pauseBeforeShot, _pauseAfterShot);
+            var botInfo = new BotInfo(mover, shooter, transform, currentPlayerTracker, _levelWallsLayerMask,
+                _tanksLayerMask, _pauseBeforeShot, _pauseAfterShot);
+            
+            Bot = new Bot(botInfo);
         }
 
         private void Update()

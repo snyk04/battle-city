@@ -1,4 +1,5 @@
-﻿using BattleCity.GameLoop;
+﻿using System;
+using BattleCity.GameLoop;
 using BattleCity.Tanks;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ namespace BattleCity.AI
 {
     public class BotInfo
     {
-        public readonly IBot Bot;
+        //public readonly IBot Bot;
+        public event Action<IState> OnStateChange;
         public readonly Mover Mover;
         public readonly Shooter Shooter;
         public readonly Transform Transform;
@@ -18,9 +20,8 @@ namespace BattleCity.AI
 
         public Vector3 Position => Transform.position;
 
-        public BotInfo(IBot bot, Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot)
+        public BotInfo(Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot)
         {
-            Bot = bot;
             Mover = mover;
             Shooter = shooter;
             Transform = transform;
@@ -29,6 +30,16 @@ namespace BattleCity.AI
             TanksLayerMask = tanksLayerMask;
             PauseBeforeShot = pauseBeforeShot;
             PauseAfterShot = pauseAfterShot;
+        }
+
+        public void ChangeState(IState state)
+        {
+            if (OnStateChange == null)
+            {
+                throw new InvalidOperationException("OnStateChange should have already been initialized.");
+            }
+            
+            OnStateChange(state);
         }
     }
 }
