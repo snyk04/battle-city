@@ -1,4 +1,6 @@
-﻿using BattleCity.Common;
+﻿using System;
+using BattleCity.Common;
+using BattleCity.Input;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -35,7 +37,10 @@ namespace BattleCity.AI
             {
                 return;
             }
-
+            if (TargetBehindBotTank(botToTargetVector))
+            {
+                return;
+            }
             if (!IsReadyToShoot())
             {
                 return;
@@ -55,6 +60,15 @@ namespace BattleCity.AI
         {
             var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
             return Physics.Raycast(ray, BotInfo.LevelWallsLayerMask);
+        }
+        private bool TargetBehindBotTank(Vector3 botToTargetVector)
+        {
+            var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, BotInfo.TanksLayerMask))
+            {
+                return hitInfo.collider.TryGetComponent(out BotComponent _);
+            }
+            throw new ApplicationException();
         }
         private bool IsReadyToShoot()
         {

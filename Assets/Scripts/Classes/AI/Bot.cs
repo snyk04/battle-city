@@ -8,9 +8,9 @@ namespace BattleCity.AI
     {
         public IState State { get; set; }
 
-        public Bot(Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, float pauseBeforeShot, float pauseAfterShot)
+        public Bot(Mover mover, Shooter shooter, Transform transform, ICurrentPlayerTracker currentPlayerTracker, LayerMask levelWallsLayerMask, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot)
         {
-            var botInfo = new BotInfo(this, mover, shooter, transform, currentPlayerTracker, levelWallsLayerMask, pauseBeforeShot, pauseAfterShot);
+            var botInfo = new BotInfo(this, mover, shooter, transform, currentPlayerTracker, levelWallsLayerMask, tanksLayerMask, pauseBeforeShot, pauseAfterShot);
             
             State = new KillPlayerState(botInfo);
         }

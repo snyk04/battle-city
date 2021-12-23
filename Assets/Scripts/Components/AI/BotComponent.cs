@@ -10,6 +10,7 @@ namespace BattleCity.AI
     {
         [SerializeField] private PlayerSpawnerComponent _playerSpawner;
         [SerializeField] private LayerMask _levelWallsLayerMask;
+        [SerializeField] private LayerMask _tanksLayerMask;
         [SerializeField] private float _pauseBeforeShot;
         [SerializeField] private float _pauseAfterShot;
         
@@ -21,7 +22,7 @@ namespace BattleCity.AI
             Shooter shooter = GetComponent<ShooterComponent>().Shooter;
             ICurrentPlayerTracker currentPlayerTracker = _playerSpawner.PlayerSpawner;
             
-            Bot = new Bot(mover, shooter, transform, currentPlayerTracker, _levelWallsLayerMask, _pauseBeforeShot, _pauseAfterShot);
+            Bot = new Bot(mover, shooter, transform, currentPlayerTracker, _levelWallsLayerMask, _tanksLayerMask, _pauseBeforeShot, _pauseAfterShot);
         }
 
         private void Update()
