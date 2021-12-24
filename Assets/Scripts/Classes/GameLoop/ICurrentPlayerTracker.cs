@@ -4,6 +4,6 @@ namespace BattleCity.GameLoop
 {
     public interface ICurrentPlayerTracker
     {
-        Vector3 CurrentPlayerPosition { get; }
+        Transform CurrentPlayer { get; }
     }
 }

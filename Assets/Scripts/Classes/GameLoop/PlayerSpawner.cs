@@ -12,7 +12,7 @@ namespace BattleCity.GameLoop
         private int _amountOfLives;
 
         private GameObject _currentPlayer;
-        public Vector3 CurrentPlayerPosition => _currentPlayer.transform.position;
+        public Transform CurrentPlayer => _currentPlayer.transform;
 
         public event Action OnGameOver;
         
