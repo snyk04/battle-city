@@ -1,5 +1,6 @@
 ﻿using System;
 using BattleCity.Common;
+using BattleCity.Input;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -32,14 +33,11 @@ namespace BattleCity.AI
                 return;
             }
             botToTargetVector.SnapToAxis();
-            if (TargetBehindTheWall(botToTargetVector))
+            if (!TargetCanBeShot(botToTargetVector))
             {
                 return;
             }
-            if (TargetBehindBotTank(botToTargetVector))
-            {
-                return;
-            }
+            
             if (!IsReadyToShoot())
             {
                 return;
@@ -55,19 +53,11 @@ namespace BattleCity.AI
         {
             return Mathf.Abs(botToTargetVector.x) < 0.25f || Mathf.Abs(botToTargetVector.z) < 0.25f;
         }
-        private bool TargetBehindTheWall(Vector3 botToTargetVector)
+        private bool TargetCanBeShot(Vector3 botToTargetVector)
         {
             var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
-            return Physics.Raycast(ray, BotInfo.LevelWallsLayerMask);
-        }
-        private bool TargetBehindBotTank(Vector3 botToTargetVector)
-        {
-            var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, BotInfo.TanksLayerMask))
-            {
-                return hitInfo.collider.TryGetComponent(out BotComponent _);
-            }
-            throw new ApplicationException();
+            return Physics.Raycast(ray, out RaycastHit hitInfo, BotInfo.TanksLayerMask)
+                   && hitInfo.collider.TryGetComponent(out MovementInputComponent _);
         }
         private bool IsReadyToShoot()
         {

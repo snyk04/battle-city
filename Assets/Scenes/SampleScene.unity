@@ -840,6 +840,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5998874276354710532, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5998874276354710533, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -888,13 +892,9 @@ PrefabInstance:
       propertyPath: _playerSpawner
       value: 
       objectReference: {fileID: 336338462}
-    - target: {fileID: 6694327779775680307, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
-      propertyPath: _pauseAfterShot
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6694327779775680307, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
-      propertyPath: _pauseBeforeShot
-      value: 1
+    - target: {fileID: 6750130476148582055, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}

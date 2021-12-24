@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 5998874276354710531}
   - component: {fileID: 855622178339772207}
   - component: {fileID: 6694327779775680307}
-  m_Layer: 0
+  - component: {fileID: 3463578217491135166}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +165,24 @@ MonoBehaviour:
   _levelWallsLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  _shotDelay: 1
+  _tanksLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _pauseBeforeShot: 1
+  _pauseAfterShot: 1
+--- !u!114 &3463578217491135166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5998874276354710532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc9429058c94e9380e1054312891c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amountOfHealth: 1
 --- !u!1 &6750130476148582055
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2067013204048697864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleHole
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
