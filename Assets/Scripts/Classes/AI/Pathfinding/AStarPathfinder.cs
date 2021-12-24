@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace BattleCity.AI
 {
-    public static class Pathfinder
+    public class AStarPathfinder : IPathfinder
     {
         private const int DistanceBetweenNeighbours = 1;
         
-        public static Vector2Int[] FindShortestPath(in Vector2Int start, in Vector2Int goal, in bool[,] field)
+        public Vector2Int[] FindShortestPath(in Vector2Int start, in Vector2Int goal, in bool[,] field)
         {
             var closedSet = new List<Node>();
             var openSet = new List<Node>();

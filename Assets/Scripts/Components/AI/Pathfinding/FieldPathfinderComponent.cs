@@ -10,7 +10,7 @@ namespace BattleCity.AI.Pathfinding
 
         private void Awake()
         {
-            FieldPathfinder = new FieldPathfinder(_fieldContainer.FieldContainer);
+            FieldPathfinder = new FieldPathfinder(_fieldContainer.FieldContainer, new AStarPathfinder());
         }
     }
 }

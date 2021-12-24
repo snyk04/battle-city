@@ -1,4 +1,5 @@
-﻿using BattleCity.AI;
+﻿using System.Collections;
+using BattleCity.AI;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -33,12 +34,23 @@ namespace AI.Pathfinding
         [Test]
         public void FindShortestPathTest1()
         {
-            Assert.AreEqual(_shortestPath1, Pathfinder.FindShortestPath(_start, _goal, _testField1));
+            FindShortestPathTest(_shortestPath1, _testField1);
         }
         [Test]
         public void FindShortestPathTest2()
         {
-            Assert.AreEqual(_shortestPath2, Pathfinder.FindShortestPath(_start, _goal, _testField2));
+            FindShortestPathTest(_shortestPath2, _testField2);
+        }
+
+        private void FindShortestPathTest(IEnumerable shortestPath, bool[,] testField)
+        {
+            CreatePathfinder(out IPathfinder pathfinder);
+            Assert.AreEqual(shortestPath, pathfinder.FindShortestPath(_start, _goal, testField));
+        }
+
+        private void CreatePathfinder(out IPathfinder pathfinder)
+        {
+            pathfinder = new AStarPathfinder();
         }
     }
 }

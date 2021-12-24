@@ -6,10 +6,12 @@ namespace BattleCity.AI
     public class FieldPathfinder
     {
         private readonly FieldContainer _fieldContainerManager;
-
-        public FieldPathfinder(FieldContainer fieldContainerManager)
+        private readonly IPathfinder _pathfinder;
+        
+        public FieldPathfinder(FieldContainer fieldContainerManager, IPathfinder pathfinder)
         {
             _fieldContainerManager = fieldContainerManager;
+            _pathfinder = pathfinder;
         }
         
         public Vector3[] FindShortestPath(Vector3 start, Vector3 goal)
@@ -17,7 +19,7 @@ namespace BattleCity.AI
             Vector2Int fieldStart = _fieldContainerManager.SceneToFieldCoordinates(start);
             Vector2Int fieldGoal = _fieldContainerManager.SceneToFieldCoordinates(goal);
 
-            Vector2Int[] fieldPath = Pathfinder.FindShortestPath(
+            Vector2Int[] fieldPath = _pathfinder.FindShortestPath(
                 fieldStart, 
                 fieldGoal, 
                 _fieldContainerManager.Field

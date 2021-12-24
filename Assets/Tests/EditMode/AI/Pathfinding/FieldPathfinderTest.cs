@@ -49,6 +49,8 @@ namespace AI.Pathfinding
 
         private void FindShortestPathTest(GameObject[] walls, IEnumerable expectedPath)
         {
+            CreatePathfinder(out IPathfinder pathfinder);
+            
             var field = new FieldContainer(
                 Rows,
                 Columns,
@@ -56,10 +58,15 @@ namespace AI.Pathfinding
                 _topLeftPointPosition,
                 DistanceBetweenPoints
                 );
-            var fieldPathFinder = new FieldPathfinder(field);
+            var fieldPathFinder = new FieldPathfinder(field, pathfinder);
 
             Vector3[] foundedPath = fieldPathFinder.FindShortestPath(_start, _goal);
             Assert.AreEqual(foundedPath, expectedPath);
+        }
+        
+        private void CreatePathfinder(out IPathfinder pathfinder)
+        {
+            pathfinder = new AStarPathfinder();
         }
     }
 }
