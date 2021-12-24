@@ -43,7 +43,6 @@ namespace BattleCity.Tanks
             Vector3 shootDirection = _muzzleHole.forward.NullifyY();
             
             bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * shootDirection;
-            Debug.Log(shootDirection);
         }
     }
 }
