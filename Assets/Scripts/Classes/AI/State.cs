@@ -1,6 +1,5 @@
 ﻿using System;
 using BattleCity.Common;
-using BattleCity.Input;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -20,7 +19,7 @@ namespace BattleCity.AI
         
         public abstract void Update();
 
-        protected void TryToShoot(Vector3 target)
+        protected void TryShoot(Vector3 target)
         {
             if (IsReloading())
             {

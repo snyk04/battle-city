@@ -9,7 +9,7 @@
         
         public override void Update()
         {
-            TryToShoot(BotInfo.CurrentPlayerTracker.CurrentPlayerPosition);
+            TryShoot(BotInfo.CurrentPlayerTracker.CurrentPlayerPosition);
             MoveTo(BotInfo.CurrentPlayerTracker.CurrentPlayerPosition);
         }
     }
