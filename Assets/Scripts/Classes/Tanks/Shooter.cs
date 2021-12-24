@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BattleCity.Common;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace BattleCity.Tanks
@@ -38,8 +39,11 @@ namespace BattleCity.Tanks
             
             var bulletComponent = bullet.GetComponent<BulletComponent>();
             bulletComponent.Initialize(_bulletDamage, _gameObject);
+
+            Vector3 shootDirection = _muzzleHole.forward.NullifyY();
             
-            bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * _muzzleHole.forward;
+            bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * shootDirection;
+            Debug.Log(shootDirection);
         }
     }
 }

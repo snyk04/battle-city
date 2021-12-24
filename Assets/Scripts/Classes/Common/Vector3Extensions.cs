@@ -11,5 +11,10 @@ namespace BattleCity.Common
                 ? new Vector3(vector.x, 0, 0)
                 : new Vector3(0, 0, vector.z);
         }
+
+        public static Vector3 NullifyY(this Vector3 vector)
+        {
+            return new Vector3(vector.x, 0, vector.z);
+        }
     }
 }

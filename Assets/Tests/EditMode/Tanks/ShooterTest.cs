@@ -42,7 +42,6 @@ namespace Tanks
         {
             var bulletPrefab = new GameObject();
             bulletPrefab.AddComponent<BoxCollider>();
-            bulletPrefab.AddComponent<Rigidbody>().isKinematic = true;
             bulletPrefab.AddComponent<BulletComponent>();
 
             var shooterObject = new GameObject();
