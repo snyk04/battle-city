@@ -14,11 +14,11 @@ namespace BattleCity.Common
             {
                 case 1:
                     vector.SnapToX();
-                    
+
                     return true;
                 case -1:
                     vector.SnapToY();
-                    
+
                     return true;
                 case 0: return false;
                 default: throw new ArgumentOutOfRangeException();
@@ -29,7 +29,7 @@ namespace BattleCity.Common
         {
             return vector = new Vector2(Mathf.Sign(vector.x), 0.0f);
         }
-        
+
         public static Vector2 SnapToY(this ref Vector2 vector)
         {
             return vector = new Vector2(0.0f, Mathf.Sign(vector.y));

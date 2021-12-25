@@ -20,7 +20,9 @@ namespace BattleCity.AI
 
         public Vector3 Position => Transform.position;
 
-        public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, Transform @base, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot, FieldPathfinderHelper fieldPathfinderHelper)
+        public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, Transform @base,
+            LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot,
+            FieldPathfinderHelper fieldPathfinderHelper)
         {
             Mover = mover;
             Shooter = shooter;
@@ -39,7 +41,7 @@ namespace BattleCity.AI
             {
                 throw new InvalidOperationException("OnStateChange should have already been initialized.");
             }
-            
+
             OnStateChange(state);
         }
     }

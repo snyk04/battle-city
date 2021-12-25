@@ -17,7 +17,7 @@ namespace BattleCity.AI
 
         protected void MakeStateExpired()
         {
-            // TODO : maybe exception
+            // TODO : Maybe exception
             StateExpired?.Invoke();
         }
     }

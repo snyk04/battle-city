@@ -8,7 +8,7 @@ namespace BattleCity.AI
     public sealed class AStarPathfinder : IPathfinder
     {
         private const int DistanceBetweenNeighbours = 1;
-        
+
         public Vector2Int[] FindShortestPath(in Vector2Int start, in Vector2Int goal, in bool[,] field)
         {
             var closedSet = new List<Node>();
@@ -58,20 +58,20 @@ namespace BattleCity.AI
 
             return null;
         }
-        
+
         private IEnumerable<Node> GetValidNeighbours(Node node, Vector2Int goal, bool[,] field)
         {
             return (
-                from uncheckedNeighbour in GetUncheckedNeighbours(node) 
-                where NeighbourIsValid(uncheckedNeighbour, field) 
+                from uncheckedNeighbour in GetUncheckedNeighbours(node)
+                where NeighbourIsValid(uncheckedNeighbour, field)
                 select new Node
                 {
-                    Position = uncheckedNeighbour, 
-                    CameFrom = node, 
-                    DistanceFromStart = node.DistanceFromStart + DistanceBetweenNeighbours, 
+                    Position = uncheckedNeighbour,
+                    CameFrom = node,
+                    DistanceFromStart = node.DistanceFromStart + DistanceBetweenNeighbours,
                     ApproximatePathLength = CalculateApproximatePathLength(uncheckedNeighbour, goal)
                 }
-                ).ToArray();
+            ).ToArray();
         }
         private IEnumerable<Vector2Int> GetUncheckedNeighbours(in Node node)
         {
@@ -97,11 +97,11 @@ namespace BattleCity.AI
         {
             return field[position.x, position.y];
         }
-        
+
         private Vector2Int[] GetPathFromStartToNode(in Node node)
         {
             var path = new List<Vector2Int>();
-            
+
             Node currentNode = node;
             while (currentNode != null)
             {
@@ -117,7 +117,7 @@ namespace BattleCity.AI
         {
             int xDistance = Math.Abs(goal.x - start.x);
             int yDistance = Math.Abs(goal.y - start.y);
-            
+
             return xDistance + yDistance;
         }
     }

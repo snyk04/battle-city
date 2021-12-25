@@ -15,13 +15,13 @@ namespace BattleCity.GameLoop
         public Transform Player => _player != null ? _player.transform : null;
 
         public event Action OnGameOver;
-        
+
         public PlayerSpawner(GameObject playerPrefab, Vector3 spawnPoint, int amountOfLives)
         {
             _playerPrefab = playerPrefab;
             _spawnPoint = spawnPoint;
             _amountOfLives = amountOfLives;
-            
+
             SpawnPlayer();
         }
 
@@ -34,14 +34,14 @@ namespace BattleCity.GameLoop
                 OnGameOver?.Invoke();
                 return;
             }
-            
+
             SpawnPlayer();
         }
         private void SpawnPlayer()
         {
             _player = Object.Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity);
-            
-            Damageable playerDamageable = _player.GetComponent<DamageableComponent>().Damageable; 
+
+            Damageable playerDamageable = _player.GetComponent<DamageableComponent>().Damageable;
             playerDamageable.OnDestroy += TryToRespawnPlayer;
         }
     }

@@ -10,7 +10,7 @@ namespace BattleCity.Tanks
         [SerializeField] private Transform _muzzleHole;
 
         public Shooter Shooter { get; private set; }
-        
+
         private void Awake()
         {
             Shooter = new Shooter(_bulletPrefab, _bulletDamage, _bulletSpeed, _muzzleHole, gameObject);

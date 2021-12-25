@@ -12,7 +12,7 @@ namespace BattleCity.Input
         {
             _shooter = shooter;
             _inputAction = inputAction;
-            
+
             _inputAction.performed += Shoot;
         }
 
@@ -24,7 +24,7 @@ namespace BattleCity.Input
         {
             _inputAction.Disable();
         }
-        
+
         public void Dispose()
         {
             _inputAction.performed -= Shoot;

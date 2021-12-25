@@ -13,7 +13,7 @@ namespace BattleCity.Input
             Shooter shooter = GetComponent<ShooterComponent>().Shooter;
             ShooterInput = new ShootingInput(shooter, new Controls().Player.Shoot);
         }
-        
+
         private void OnEnable()
         {
             ShooterInput.Enable();
@@ -21,7 +21,7 @@ namespace BattleCity.Input
         private void OnDisable()
         {
             ShooterInput.Disable();
-        } 
+        }
         private void OnDestroy()
         {
             ShooterInput.Dispose();

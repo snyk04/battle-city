@@ -13,7 +13,7 @@ namespace BattleCity.Input
             Mover mover = GetComponent<MoverComponent>().Mover;
             MovementInput = new MovementInput(mover, new Controls().Player.Move);
         }
-        
+
         private void OnEnable()
         {
             MovementInput.Enable();

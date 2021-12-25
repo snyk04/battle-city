@@ -6,7 +6,7 @@
 
         public Bot(BotInfo botInfo)
         {
-            botInfo.OnStateChange += state => State = state;
+            botInfo.OnStateChange += (state) => State = state;
 
             var decisionMaker = new DecisionMaker(botInfo);
             decisionMaker.MakeDecision();

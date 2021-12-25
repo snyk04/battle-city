@@ -10,7 +10,7 @@ namespace BattleCity.Tanks
     {
         private readonly float _speed;
         private readonly Transform _transform;
-        
+
         private readonly CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
         public Vector2 Velocity { get; private set; }
@@ -22,12 +22,12 @@ namespace BattleCity.Tanks
 
             MoveAsync(_cancellationSource.Token);
         }
-        
+
         public void StartMoving(Vector2 direction)
         {
-            // todo direction can be only V2.left/right/up/down
+            // TODO : Direction can be only V2.left/right/up/down
             Velocity = _speed * direction.normalized;
-            
+
             if (direction != Vector2.zero)
             {
                 _transform.forward = direction.ReProjectFromXZ();
@@ -44,7 +44,7 @@ namespace BattleCity.Tanks
             while (!cancellation.IsCancellationRequested)
             {
                 _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
-                
+
                 await Task.Yield();
             }
         }

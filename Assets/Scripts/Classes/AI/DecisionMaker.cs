@@ -22,10 +22,10 @@ namespace BattleCity.AI
                 float distanceToBase = (_botInfo.Base.position - _botInfo.Position).magnitude;
                 float distanceToPlayer = (_botInfo.PlayerTracker.Player.position - _botInfo.Position).magnitude;
 
-                Transform newTarget = distanceToBase > distanceToPlayer 
-                    ? _botInfo.PlayerTracker.Player 
+                Transform newTarget = distanceToBase > distanceToPlayer
+                    ? _botInfo.PlayerTracker.Player
                     : _botInfo.Base;
-                
+
                 ChangeState(new KillState(_botInfo, newTarget));
             }
             else if (_botInfo.Base != null)
