@@ -25,6 +25,7 @@ namespace BattleCity.Tanks
         
         public void StartMoving(Vector2 direction)
         {
+            // todo direction can be only V2.left/right/up/down
             Velocity = _speed * direction.normalized;
             
             if (direction != Vector2.zero)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattleCity.Tanks
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody))] // todo remove
     public class MoverComponent : MonoBehaviour
     {
         [SerializeField] private float _speed;
