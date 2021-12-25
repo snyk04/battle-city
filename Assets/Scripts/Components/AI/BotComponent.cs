@@ -10,7 +10,7 @@ namespace BattleCity.AI
     public class BotComponent : MonoBehaviour
     {
         [SerializeField] private PlayerSpawnerComponent _playerSpawner;
-        [SerializeField] private LayerMask _levelWallsLayerMask;
+        [SerializeField] private Transform _base;
         [SerializeField] private LayerMask _tanksLayerMask;
         [SerializeField] private float _pauseBeforeShot;
         [SerializeField] private float _pauseAfterShot;
@@ -30,7 +30,7 @@ namespace BattleCity.AI
                 shooter,
                 transform,
                 playerTracker,
-                _levelWallsLayerMask,
+                _base,
                 _tanksLayerMask,
                 _pauseBeforeShot,
                 _pauseAfterShot,

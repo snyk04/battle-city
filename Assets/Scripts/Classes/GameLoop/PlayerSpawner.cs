@@ -12,7 +12,7 @@ namespace BattleCity.GameLoop
         private int _amountOfLives;
 
         private GameObject _player;
-        public Transform Player => _player.transform;
+        public Transform Player => _player != null ? _player.transform : null;
 
         public event Action OnGameOver;
         

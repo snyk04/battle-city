@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using System;
 using BattleCity.Common;
 using BattleCity.Input;
 using UnityEngine;
@@ -26,11 +27,12 @@ namespace BattleCity.AI
 
         public override void Update()
         {
-            // TODO : think about respawned player or base
             if (_target == null)
             {
-                _target = BotInfo.PlayerTracker.Player;
+                MakeStateExpired();
+                return;
             }
+            
             TryShootTarget();
             MoveToTarget();
         }
@@ -61,24 +63,20 @@ namespace BattleCity.AI
 
             Shoot(botToTargetVector);
         }
-
         private bool IsReloading()
         {
             return Time.time - _lastShotTime < BotInfo.PauseAfterShot;
         }
-
         private bool TargetAtGunPoint(Vector3 botToTargetVector)
         {
             return Mathf.Abs(botToTargetVector.x) < 0.25f || Mathf.Abs(botToTargetVector.z) < 0.25f;
         }
-
         private bool TargetCanBeShot(Vector3 botToTargetVector)
         {
             var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
             return Physics.Raycast(ray, out RaycastHit hitInfo, BotInfo.TanksLayerMask)
                    && hitInfo.collider.TryGetComponent(out MovementInputComponent _);
         }
-
         private bool IsReadyToShoot()
         {
             if (_preparingToShoot)
@@ -90,7 +88,6 @@ namespace BattleCity.AI
             _preparingStartTime = Time.time;
             return false;
         }
-
         private void Shoot(Vector3 shootDirection)
         {
             _preparingToShoot = false;
@@ -101,30 +98,31 @@ namespace BattleCity.AI
 
         private void MoveToTarget()
         {
-            // if (IsReloading())
-            // {
-            //     return;
-            // }
-
             if (AtGoalPoint())
             {
                 UpdateGoalPoint();
             }
 
-            Debug.Log(_currentGoalPoint);
             Vector3 moveDirection = _currentGoalPoint - BotInfo.Position;
             Vector2 normalizedMoveDirection = new Vector2(moveDirection.x, moveDirection.z).normalized;
             BotInfo.Mover.StartMoving(normalizedMoveDirection);
         }
-
         private bool AtGoalPoint()
         {
             return (BotInfo.Position - _currentGoalPoint).magnitude < AllowedError;
         }
-
         private void UpdateGoalPoint()
         {
-            _currentGoalPoint = BotInfo.FieldPathfinderHelper.FindShortestPath(BotInfo.Position, _target.position)[1];
+            Vector3[] path = BotInfo.FieldPathfinderHelper.FindShortestPath(BotInfo.Position, _target.position);
+
+            if (path == null)
+            {
+                throw new ApplicationException("There is no way to that point!");
+            }
+            
+            _currentGoalPoint = path.Length > 1
+                ? path[1]
+                : path[0];
         }
     }
 }

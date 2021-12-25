@@ -8,7 +8,8 @@
         {
             botInfo.OnStateChange += state => State = state;
 
-            State = new KillState(botInfo, botInfo.PlayerTracker.Player);
+            var decisionMaker = new DecisionMaker(botInfo);
+            decisionMaker.MakeDecision();
         }
 
         public void Update()

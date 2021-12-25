@@ -7,13 +7,12 @@ namespace BattleCity.AI
 {
     public class BotInfo
     {
-        //public readonly IBot Bot;
         public event Action<IState> OnStateChange;
         public readonly Mover Mover;
         public readonly Shooter Shooter;
         public readonly Transform Transform;
         public readonly IPlayerTracker PlayerTracker;
-        public readonly LayerMask LevelWallsLayerMask;
+        public readonly Transform Base;
         public readonly LayerMask TanksLayerMask;
         public readonly float PauseBeforeShot;
         public readonly float PauseAfterShot;
@@ -21,13 +20,13 @@ namespace BattleCity.AI
 
         public Vector3 Position => Transform.position;
 
-        public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, LayerMask levelWallsLayerMask, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot, FieldPathfinderHelper fieldPathfinderHelper)
+        public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, Transform @base, LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot, FieldPathfinderHelper fieldPathfinderHelper)
         {
             Mover = mover;
             Shooter = shooter;
             Transform = transform;
             PlayerTracker = playerTracker;
-            LevelWallsLayerMask = levelWallsLayerMask;
+            Base = @base;
             TanksLayerMask = tanksLayerMask;
             PauseBeforeShot = pauseBeforeShot;
             PauseAfterShot = pauseAfterShot;
