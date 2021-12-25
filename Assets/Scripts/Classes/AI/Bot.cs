@@ -8,7 +8,7 @@
         {
             botInfo.OnStateChange += state => State = state;
 
-            State = new KillState(botInfo, botInfo.CurrentPlayerTracker.CurrentPlayer);
+            State = new KillState(botInfo, botInfo.PlayerTracker.Player);
         }
 
         public void Update()

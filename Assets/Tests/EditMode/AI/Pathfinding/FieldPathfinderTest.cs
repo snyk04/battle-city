@@ -58,7 +58,7 @@ namespace AI.Pathfinding
                 _topLeftPointPosition,
                 DistanceBetweenPoints
                 );
-            var fieldPathFinder = new FieldPathfinder(field, pathfinder);
+            var fieldPathFinder = new FieldPathfinderHelper(field, pathfinder);
 
             Vector3[] foundedPath = fieldPathFinder.FindShortestPath(_start, _goal);
             Assert.AreEqual(foundedPath, expectedPath);

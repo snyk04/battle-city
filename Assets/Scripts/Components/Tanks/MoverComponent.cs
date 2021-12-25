@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BattleCity.Tanks
 {
@@ -11,8 +12,12 @@ namespace BattleCity.Tanks
         
         private void Awake()
         {
-            var rb = GetComponent<Rigidbody>();
-            Mover = new Mover(_speed, rb, transform);
+            Mover = new Mover(_speed, transform);
+        }
+
+        private void OnDestroy()
+        {
+            Mover.Dispose();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using BattleCity.Common;
 using BattleCity.Tanks;
 using UnityEngine;
 
@@ -9,8 +10,9 @@ namespace BattleCity.AI
         private readonly int _rows;
         private readonly int _columns;
         private readonly GameObject[] _walls;
-        private readonly Vector3 _topLeftPointPosition;
-        private readonly float _distanceBetweenPoints;
+        public readonly Vector3 TopLeftPointPosition;
+        public readonly float DistanceBetweenPoints;
+        public readonly SceneFieldCoordinatesConverter Converter;
         
         private Vector2Int[] _wallCoordinates;
 
@@ -21,8 +23,10 @@ namespace BattleCity.AI
             _rows = rows;
             _columns = columns;
             _walls = walls;
-            _topLeftPointPosition = topLeftPointPosition;
-            _distanceBetweenPoints = distanceBetweenPoints;
+            TopLeftPointPosition = topLeftPointPosition;
+            DistanceBetweenPoints = distanceBetweenPoints;
+
+            Converter = new SceneFieldCoordinatesConverter(TopLeftPointPosition, DistanceBetweenPoints);
 
             HandleWalls();
             InitializeField();
@@ -35,7 +39,7 @@ namespace BattleCity.AI
             {
                 GameObject wall = _walls[i];
                 Vector3 scenePosition = wall.transform.position;
-                Vector2Int fieldCoordinates = SceneToFieldCoordinates(scenePosition);
+                Vector2Int fieldCoordinates = Converter.Convert(scenePosition);
                 _wallCoordinates[i] = fieldCoordinates;
 
                 if (wall.TryGetComponent(out DamageableComponent damageableComponent))
@@ -66,19 +70,47 @@ namespace BattleCity.AI
             Field[wallPosition.x, wallPosition.y] = true;
         }
 
-        public Vector2Int SceneToFieldCoordinates(in Vector3 scenePosition)
+        /*public Vector2Int SceneToFieldCoordinates(in Vector3 scenePosition)
         {
-            int row = Mathf.RoundToInt((_topLeftPointPosition.z - scenePosition.z) / _distanceBetweenPoints);
-            int column = Mathf.RoundToInt((scenePosition.x - _topLeftPointPosition.x) / _distanceBetweenPoints);
+            int row = Mathf.RoundToInt((TopLeftPointPosition.z - scenePosition.z) / DistanceBetweenPoints);
+            int column = Mathf.RoundToInt((scenePosition.x - TopLeftPointPosition.x) / DistanceBetweenPoints);
 
             return new Vector2Int(row, column);
         }
         public Vector3 FieldToSceneCoordinates(in Vector2Int fieldPosition)
         {
-            float x = _topLeftPointPosition.x + fieldPosition.y * _distanceBetweenPoints;
-            float z = _topLeftPointPosition.z - fieldPosition.x * _distanceBetweenPoints;
+            float x = TopLeftPointPosition.x + fieldPosition.y * DistanceBetweenPoints;
+            float z = TopLeftPointPosition.z - fieldPosition.x * DistanceBetweenPoints;
             
-            return new Vector3(x, 0, z);
+            return new Vector3(x, TopLeftPointPosition.y, z);
+        }*/
+    }
+
+    public class SceneFieldCoordinatesConverter : IConverter<Vector3, Vector2Int>, IConverter<Vector2Int, Vector3>
+    {
+        private readonly Vector3 _topLeftFieldPointPosition;
+        private readonly float _distanceBetweenPoints;
+
+        public SceneFieldCoordinatesConverter(Vector3 topLeftFieldPointPosition, float distanceBetweenPoints)
+        {
+            _topLeftFieldPointPosition = topLeftFieldPointPosition;
+            _distanceBetweenPoints = distanceBetweenPoints;
+        }
+
+        public Vector3 Convert(Vector2Int fieldPosition)
+        {
+            float x = _topLeftFieldPointPosition.x + fieldPosition.y * _distanceBetweenPoints;
+            float z = _topLeftFieldPointPosition.z - fieldPosition.x * _distanceBetweenPoints;
+            
+            return new Vector3(x, _topLeftFieldPointPosition.y, z);
+        }
+
+        public Vector2Int Convert(Vector3 scenePosition)
+        {
+            int row = Mathf.RoundToInt((_topLeftFieldPointPosition.z - scenePosition.z) / _distanceBetweenPoints);
+            int column = Mathf.RoundToInt((scenePosition.x - _topLeftFieldPointPosition.x) / _distanceBetweenPoints);
+
+            return new Vector2Int(row, column);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BattleCity.GameLoop;
+﻿using BattleCity.AI.Pathfinding;
+using BattleCity.GameLoop;
 using BattleCity.Tanks;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace BattleCity.AI
         [SerializeField] private LayerMask _tanksLayerMask;
         [SerializeField] private float _pauseBeforeShot;
         [SerializeField] private float _pauseAfterShot;
+        [SerializeField] private FieldPathfinderComponent _fieldPathfinder;
         
         public Bot Bot { get; private set; }
         
@@ -20,10 +22,20 @@ namespace BattleCity.AI
         {
             Mover mover = GetComponent<MoverComponent>().Mover;
             Shooter shooter = GetComponent<ShooterComponent>().Shooter;
-            ICurrentPlayerTracker currentPlayerTracker = _playerSpawner.PlayerSpawner;
+            IPlayerTracker playerTracker = _playerSpawner.PlayerSpawner;
+            FieldPathfinderHelper fieldPathfinderHelper = _fieldPathfinder.FieldPathfinderHelper;
             
-            var botInfo = new BotInfo(mover, shooter, transform, currentPlayerTracker, _levelWallsLayerMask,
-                _tanksLayerMask, _pauseBeforeShot, _pauseAfterShot);
+            var botInfo = new BotInfo(
+                mover,
+                shooter,
+                transform,
+                playerTracker,
+                _levelWallsLayerMask,
+                _tanksLayerMask,
+                _pauseBeforeShot,
+                _pauseAfterShot,
+                fieldPathfinderHelper
+                );
             
             Bot = new Bot(botInfo);
         }

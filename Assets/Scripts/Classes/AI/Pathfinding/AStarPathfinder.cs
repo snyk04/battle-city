@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BattleCity.AI
 {
-    public class AStarPathfinder : IPathfinder
+    public sealed class AStarPathfinder : IPathfinder
     {
         private const int DistanceBetweenNeighbours = 1;
         
@@ -59,7 +59,7 @@ namespace BattleCity.AI
             return null;
         }
         
-        private static IEnumerable<Node> GetValidNeighbours(Node node, Vector2Int goal, bool[,] field)
+        private IEnumerable<Node> GetValidNeighbours(Node node, Vector2Int goal, bool[,] field)
         {
             return (
                 from uncheckedNeighbour in GetUncheckedNeighbours(node) 
@@ -73,7 +73,7 @@ namespace BattleCity.AI
                 }
                 ).ToArray();
         }
-        private static IEnumerable<Vector2Int> GetUncheckedNeighbours(in Node node)
+        private IEnumerable<Vector2Int> GetUncheckedNeighbours(in Node node)
         {
             Vector2Int[] uncheckedNeighbours =
             {
@@ -85,7 +85,7 @@ namespace BattleCity.AI
 
             return uncheckedNeighbours;
         }
-        private static bool NeighbourIsValid(in Vector2Int position, in bool[,] field)
+        private bool NeighbourIsValid(in Vector2Int position, in bool[,] field)
         {
             return position.x >= 0
                    && position.x < field.GetLength(0)
@@ -93,12 +93,12 @@ namespace BattleCity.AI
                    && position.y < field.GetLength(1)
                    && PointIsWalkable(position, field);
         }
-        private static bool PointIsWalkable(in Vector2Int position, in bool[,] field)
+        private bool PointIsWalkable(in Vector2Int position, in bool[,] field)
         {
             return field[position.x, position.y];
         }
         
-        private static Vector2Int[] GetPathFromStartToNode(in Node node)
+        private Vector2Int[] GetPathFromStartToNode(in Node node)
         {
             var path = new List<Vector2Int>();
             
@@ -113,7 +113,7 @@ namespace BattleCity.AI
             return path.ToArray();
         }
 
-        private static int CalculateApproximatePathLength(in Vector2Int start, in Vector2Int goal)
+        private int CalculateApproximatePathLength(in Vector2Int start, in Vector2Int goal)
         {
             int xDistance = Math.Abs(goal.x - start.x);
             int yDistance = Math.Abs(goal.y - start.y);

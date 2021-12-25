@@ -3958,6 +3958,10 @@ PrefabInstance:
       propertyPath: _playerSpawner
       value: 
       objectReference: {fileID: 336338462}
+    - target: {fileID: 6694327779775680307, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
+      propertyPath: _fieldPathfinder
+      value: 
+      objectReference: {fileID: 1466447377}
     - target: {fileID: 6750130476148582055, guid: d3542bcc59236bb4494583794f86c9a5, type: 3}
       propertyPath: m_Layer
       value: 6

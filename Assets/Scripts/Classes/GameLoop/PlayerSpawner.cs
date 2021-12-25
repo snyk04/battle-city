@@ -5,14 +5,14 @@ using Object = UnityEngine.Object;
 
 namespace BattleCity.GameLoop
 {
-    public class PlayerSpawner : ICurrentPlayerTracker
+    public class PlayerSpawner : IPlayerTracker
     {
         private readonly GameObject _playerPrefab;
         private readonly Vector3 _spawnPoint;
         private int _amountOfLives;
 
-        private GameObject _currentPlayer;
-        public Transform CurrentPlayer => _currentPlayer.transform;
+        private GameObject _player;
+        public Transform Player => _player.transform;
 
         public event Action OnGameOver;
         
@@ -39,9 +39,9 @@ namespace BattleCity.GameLoop
         }
         private void SpawnPlayer()
         {
-            _currentPlayer = Object.Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity);
+            _player = Object.Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity);
             
-            Damageable playerDamageable = _currentPlayer.GetComponent<DamageableComponent>().Damageable; 
+            Damageable playerDamageable = _player.GetComponent<DamageableComponent>().Damageable; 
             playerDamageable.OnDestroy += TryToRespawnPlayer;
         }
     }

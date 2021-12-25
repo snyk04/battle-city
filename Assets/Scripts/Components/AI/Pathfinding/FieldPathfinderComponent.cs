@@ -6,11 +6,11 @@ namespace BattleCity.AI.Pathfinding
     {
         [SerializeField] private FieldContainerComponent _fieldContainer;
         
-        public FieldPathfinder FieldPathfinder { get; private set; }
+        public FieldPathfinderHelper FieldPathfinderHelper { get; private set; }
 
         private void Awake()
         {
-            FieldPathfinder = new FieldPathfinder(_fieldContainer.FieldContainer, new AStarPathfinder());
+            FieldPathfinderHelper = new FieldPathfinderHelper(_fieldContainer.FieldContainer, new AStarPathfinder());
         }
     }
 }

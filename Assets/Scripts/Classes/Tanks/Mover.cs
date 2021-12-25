@@ -1,34 +1,52 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using BattleCity.Common;
 using UnityEngine;
 
 namespace BattleCity.Tanks
 {
-    public class Mover
+    public class Mover : IDisposable
     {
         private readonly float _speed;
-        
-        private readonly Rigidbody _rigidbody;
+
         private readonly Transform _transform;
-        
-        public Mover(float speed, Rigidbody rigidbody, Transform transform)
+        private readonly CancellationTokenSource _cancellationSource = new CancellationTokenSource();
+
+        public Vector2 Velocity { get; private set; }
+
+        public Mover(float speed, Transform transform)
         {
             _speed = speed;
-
-            _rigidbody = rigidbody;
             _transform = transform;
+
+            MoveAsync(_cancellationSource.Token);
+        }
+
+        private async Task MoveAsync(CancellationToken cancellation)
+        {
+            while (!cancellation.IsCancellationRequested)
+            {
+                _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
+                
+                await Task.Yield();
+            }
         }
         
         public void StartMoving(Vector2 direction)
         {
-            bool isDirectionZero = direction == Vector2.zero;
+            Velocity = _speed * direction.normalized;
             
-            _rigidbody.isKinematic = isDirectionZero;
-            _rigidbody.velocity = _speed * direction.normalized.ReProjectFromXZ();
-
-            if (!isDirectionZero)
+            if (direction != Vector2.zero)
             {
                 _transform.forward = direction.ReProjectFromXZ();
             }
+        }
+
+        public void Dispose()
+        {
+            _cancellationSource.Cancel();
+            _cancellationSource.Dispose();
         }
     }
 }
