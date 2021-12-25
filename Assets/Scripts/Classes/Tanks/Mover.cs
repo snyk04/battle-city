@@ -9,8 +9,8 @@ namespace BattleCity.Tanks
     public class Mover : IDisposable
     {
         private readonly float _speed;
-
         private readonly Transform _transform;
+        
         private readonly CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
         public Vector2 Velocity { get; private set; }
@@ -22,16 +22,6 @@ namespace BattleCity.Tanks
 
             MoveAsync(_cancellationSource.Token);
         }
-
-        private async Task MoveAsync(CancellationToken cancellation)
-        {
-            while (!cancellation.IsCancellationRequested)
-            {
-                _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
-                
-                await Task.Yield();
-            }
-        }
         
         public void StartMoving(Vector2 direction)
         {
@@ -42,11 +32,20 @@ namespace BattleCity.Tanks
                 _transform.forward = direction.ReProjectFromXZ();
             }
         }
-
         public void Dispose()
         {
             _cancellationSource.Cancel();
             _cancellationSource.Dispose();
+        }
+
+        private async Task MoveAsync(CancellationToken cancellation)
+        {
+            while (!cancellation.IsCancellationRequested)
+            {
+                _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
+                
+                await Task.Yield();
+            }
         }
     }
 }
