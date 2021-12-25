@@ -7,50 +7,55 @@ namespace AI.Pathfinding
 {
     public class PathfinderTest
     {
-        private readonly bool[,] _testField1 =
-        {
-            {true, true, true},
-            {true, true, true},
-            {true, true, true}
-        };
-        private readonly bool[,] _testField2 =
-        {
-            {true, false, true},
-            {true, true, true},
-            {true, true, true}
-        };
-        private readonly Vector2Int[] _shortestPath1 =
-        {
-            Vector2Int.zero, new Vector2Int(0, 1), new Vector2Int(0, 2)
-        };
-        private readonly Vector2Int[] _shortestPath2 =
-        {
-            Vector2Int.zero, new Vector2Int(1, 0), new Vector2Int(1, 1), new Vector2Int(1, 2), new Vector2Int(0, 2)
-        };
-        
         private readonly Vector2Int _start = Vector2Int.zero;
         private readonly Vector2Int _goal = new Vector2Int(0, 2);
         
-        [Test]
-        public void FindShortestPathTest1()
+        private static readonly Vector2Int[][] ExpectedPaths =
         {
-            FindShortestPathTest(_shortestPath1, _testField1);
+            new[]
+            {
+                Vector2Int.zero,
+                Vector2Int.up, 
+                Vector2Int.up * 2
+            },
+            new[]
+            {
+                Vector2Int.zero,
+                Vector2Int.right, 
+                new Vector2Int(1, 1),
+                new Vector2Int(1, 2),
+                Vector2Int.up * 2
+            }
+        };
+        private static readonly bool[][,] TestFields =
+        {
+            new[,]
+            {
+                {true, true, true},
+                {true, true, true},
+                {true, true, true}
+            },
+            new[,]
+            {
+                {true, false, true},
+                {true, true, true},
+                {true, true, true}
+            }
+        };
+        
+        [Sequential]
+        [Test]
+        public void FindShortestPathTest([ValueSource(nameof(ExpectedPaths))]IEnumerable expectedPath,
+            [ValueSource(nameof(TestFields))]bool[,] testField)
+        {
+            IPathfinder pathfinder = CreatePathfinder();
+            Assert.AreEqual(expectedPath, pathfinder.FindShortestPath(_start, _goal, testField));
         }
-        [Test]
-        public void FindShortestPathTest2()
+        
+        private IPathfinder CreatePathfinder()
         {
-            FindShortestPathTest(_shortestPath2, _testField2);
+            return new AStarPathfinder();
         }
 
-        private void FindShortestPathTest(IEnumerable shortestPath, bool[,] testField)
-        {
-            CreatePathfinder(out IPathfinder pathfinder);
-            Assert.AreEqual(shortestPath, pathfinder.FindShortestPath(_start, _goal, testField));
-        }
-
-        private void CreatePathfinder(out IPathfinder pathfinder)
-        {
-            pathfinder = new AStarPathfinder();
-        }
     }
 }

@@ -12,13 +12,17 @@ namespace Tanks
         private const float BulletSpeed = 1;
         private const string BulletName = "Bullet";
         
-        private readonly Vector3 _shotDirection = Vector3.right;
+        private static readonly Vector3[] ShotDirections =
+        {
+            Vector3.right, 
+            Vector3.left 
+        };
 
         [UnityTest]
-        public IEnumerator DestroyAfterHitTest()
+        public IEnumerator DestroyAfterHitTest([ValueSource(nameof(ShotDirections))]Vector3 shotDirection)
         {
             var objectToHit = new GameObject();
-            CreateShooter(_shotDirection, out Shooter shooter);
+            Shooter shooter = CreateShooter(shotDirection);
             shooter.Shoot();
             
             GameObject bulletObject = GameObject.Find(BulletName);
@@ -30,7 +34,7 @@ namespace Tanks
             Assert.IsTrue(bulletObject == null);
         }
 
-        private void CreateShooter(Vector3 shotDirection, out Shooter shooter)
+        private Shooter CreateShooter(Vector3 shotDirection)
         {
             var bulletPrefab = new GameObject();
             bulletPrefab.AddComponent<BoxCollider>();
@@ -46,7 +50,7 @@ namespace Tanks
                 }
             };
             
-            shooter = new Shooter(bulletPrefab, BulletDamage, BulletSpeed, muzzleHole.transform, shooterObject);
+            return new Shooter(bulletPrefab, BulletDamage, BulletSpeed, muzzleHole.transform, shooterObject);
         }
     }
 }

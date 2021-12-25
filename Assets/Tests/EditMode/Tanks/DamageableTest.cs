@@ -8,30 +8,18 @@ namespace Tanks
     {
         private const int AmountOfHealth = 3;
 
-        private const int Damage1 = 1;
-        private const int Damage2 = 2;
-        
         [Test]
-        public void ApplyDamageTest1()
+        public void ApplyDamageTest([Values(1, 2)]int damage)
         {
-            ApplyDamageTest(Damage1);
-        }
-        [Test]
-        public void ApplyDamageTest2()
-        {
-            ApplyDamageTest(Damage2);
-        }
-
-        private void ApplyDamageTest(int damage)
-        {
-            CreateDamageable(AmountOfHealth, out Damageable damageable);
+            Damageable damageable = CreateDamageable(AmountOfHealth);
             damageable.ApplyDamage(damage);
             Assert.AreEqual(AmountOfHealth - damage, damageable.AmountOfHealth);
         }
-        private void CreateDamageable(int amountOfHealth, out Damageable damageable)
+        
+        private Damageable CreateDamageable(int amountOfHealth)
         {
             var gameObject = new GameObject();
-            damageable = new Damageable(amountOfHealth, gameObject);
+            return new Damageable(amountOfHealth, gameObject);
         }
     }
 }

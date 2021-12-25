@@ -8,30 +8,37 @@ namespace AI.Pathfinding
     {
         private readonly Vector3 _topLeftPointPosition = Vector3.zero;
         private const float DistanceBetweenPoints = 1;
-
-        private SceneFieldCoordinatesConverter _converter;
-
-        private static readonly (Vector3, Vector2Int)[] TestValues =
+        
+        private static readonly Vector3[] SceneCoordinates =
         {
-            (Vector3.zero, Vector2Int.zero),
-            (Vector3.right, Vector2Int.up)
+            Vector3.zero, Vector3.right
+        };
+        private static readonly Vector2Int[] FieldCoordinates =
+        {
+            Vector2Int.zero, Vector2Int.up, 
         };
 
-        public SceneFieldCoordinatesConverterTest()
+        [Sequential]
+        [Test]
+        public void SceneToFieldCoordinatesTest([ValueSource(nameof(SceneCoordinates))]Vector3 sceneCoordinates,
+            [ValueSource(nameof(FieldCoordinates))]Vector2Int fieldCoordinates)
         {
-            _converter = new SceneFieldCoordinatesConverter(_topLeftPointPosition, DistanceBetweenPoints);
+            SceneFieldCoordinatesConverter converter = CreateConverter();
+            Assert.AreEqual(fieldCoordinates, converter.Convert(sceneCoordinates));
         }
 
+        [Sequential]
         [Test]
-        public void SceneToFieldCoordinatesTest([ValueSource(nameof(TestValues))] (Vector3, Vector2Int) values)
+        public void FieldToSceneCoordinatesTest([ValueSource(nameof(FieldCoordinates))]Vector2Int fieldCoordinates,
+            [ValueSource(nameof(SceneCoordinates))]Vector3 sceneCoordinates)
         {
-            Assert.AreEqual(values.Item2, _converter.Convert(values.Item1));
+            SceneFieldCoordinatesConverter converter = CreateConverter();
+            Assert.AreEqual(sceneCoordinates, converter.Convert(fieldCoordinates));
         }
 
-        [Test]
-        public void FieldToSceneCoordinatesTest([ValueSource(nameof(TestValues))] (Vector3, Vector2Int) values)
+        private SceneFieldCoordinatesConverter CreateConverter()
         {
-            Assert.AreEqual(values.Item1, _converter.Convert(values.Item2));
+            return new SceneFieldCoordinatesConverter(_topLeftPointPosition, DistanceBetweenPoints);
         }
     }
 }

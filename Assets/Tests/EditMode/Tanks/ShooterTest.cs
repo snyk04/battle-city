@@ -13,32 +13,27 @@ namespace Tanks
         private const float BulletSpeed = 1;
         private const string BulletName = "Bullet";
 
-        private readonly Vector3 _direction1 = Vector3.right;
-        private readonly Vector3 _direction2 = Vector3.left;
+        private static readonly Vector3[] ShootDirections =
+        {
+            Vector3.right, 
+            Vector3.left
+        };
 
+        [Sequential]
         [Test]
-        public void ShootTest1()
+        public void ShootTest([ValueSource(nameof(ShootDirections))]Vector3 shootDirection)
         {
-            ShootTest(_direction1);
-        }
-        [Test]
-        public void ShootTest2()
-        {
-            ShootTest(_direction2);
-        }
-
-        private void ShootTest(Vector3 shotDirection)
-        {
-            CreateShooter(shotDirection, out Shooter shooter);
+            Shooter shooter = CreateShooter(shootDirection);
             shooter.Shoot();
 
-            Vector3 expected = shotDirection * BulletSpeed;
+            Vector3 expected = shootDirection * BulletSpeed;
             Vector3 actual = GameObject.Find(BulletName).GetComponent<Rigidbody>().velocity;
             Assert.Less(Math.Abs(expected.x - actual.x), AllowedErrorForFloatComparison);
             Assert.Less(Math.Abs(expected.y - actual.y), AllowedErrorForFloatComparison);
             Assert.Less(Math.Abs(expected.z - actual.z), AllowedErrorForFloatComparison);
         }
-        private void CreateShooter(Vector3 shotDirection, out Shooter shooter)
+        
+        private Shooter CreateShooter(Vector3 shotDirection)
         {
             var bulletPrefab = new GameObject();
             bulletPrefab.AddComponent<BoxCollider>();
@@ -53,7 +48,7 @@ namespace Tanks
                 }
             };
             
-            shooter = new Shooter(bulletPrefab, BulletDamage, BulletSpeed, muzzleHole.transform, shooterObject);
+            return new Shooter(bulletPrefab, BulletDamage, BulletSpeed, muzzleHole.transform, shooterObject);
         }
     }
 }

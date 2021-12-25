@@ -13,7 +13,7 @@ namespace Tanks
         [UnityTest]
         public IEnumerator DestroyTest()
         {
-            CreateDamageable(AmountOfHealth, out GameObject gameObject, out Damageable damageable);
+            Damageable damageable = CreateDamageable(AmountOfHealth, out GameObject gameObject);
             
             damageable.Destroy();
             yield return null;
@@ -22,17 +22,17 @@ namespace Tanks
         [UnityTest]
         public IEnumerator ApplyDeathDamageTest()
         {
-            CreateDamageable(AmountOfHealth, out GameObject gameObject, out Damageable damageable);
+            Damageable damageable = CreateDamageable(AmountOfHealth, out GameObject gameObject);
 
             damageable.ApplyDamage(AmountOfHealth);
             yield return null;
             Assert.IsTrue(gameObject == null);
         }
 
-        private void CreateDamageable(int amountOfHealth, out GameObject gameObject, out Damageable damageable)
+        private Damageable CreateDamageable(int amountOfHealth, out GameObject gameObject)
         {
             gameObject = new GameObject();
-            damageable = new Damageable(amountOfHealth, gameObject);
+            return new Damageable(amountOfHealth, gameObject);
         }
     }
 }

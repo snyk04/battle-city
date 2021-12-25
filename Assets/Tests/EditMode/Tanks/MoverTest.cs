@@ -6,20 +6,31 @@ namespace Tanks
 {
     public class MoverTest
     {
-        private static (float, Vector2)[] _values =
+        private static readonly float[] Speeds =
         {
-            (1, Vector2.right),
-            (5, Vector2.left),
+            1,
+            5
+        };
+        private static readonly Vector2[] MoveDirections =
+        {
+            Vector2.right, 
+            Vector2.left
         };
         
+        [Sequential]
         [Test]
-        public void StartMovingTest([ValueSource(nameof(_values))](float, Vector2) values)
+        public void StartMovingTest([ValueSource(nameof(Speeds))]float speed, 
+            [ValueSource(nameof(MoveDirections))]Vector2 moveDirection)
         {
-            var mover = new Mover(values.Item1, new GameObject().transform);
+            Mover mover = CreateMover(speed, new GameObject().transform);
+            mover.StartMoving(moveDirection);
             
-            mover.StartMoving(values.Item2);
-            
-            Assert.AreEqual(values.Item2 * values.Item1, mover.Velocity);
+            Assert.AreEqual(moveDirection * speed, mover.Velocity);
+        }
+
+        private Mover CreateMover(float speed, Transform transform)
+        {
+            return new Mover(speed, transform);
         }
     }
 }

@@ -15,41 +15,45 @@ namespace AI.Pathfinding
 
         private readonly Vector3 _start = Vector3.zero;
         private readonly Vector3 _goal = new Vector3(DistanceBetweenPoints * 2, 0, 0);
-
-        private readonly Vector3[] _shortestPath1 =
+        
+        private static readonly Vector3[][] ExpectedPaths =
         {
-            Vector3.zero,
-            new Vector3(DistanceBetweenPoints * 1, 0, 0),
-            new Vector3(DistanceBetweenPoints * 2, 0, 0)
+            new [] 
+            {
+                Vector3.zero,
+                new Vector3(DistanceBetweenPoints * 1, 0, 0),
+                new Vector3(DistanceBetweenPoints * 2, 0, 0)
+            },
+            new [] 
+            {
+                Vector3.zero,
+                new Vector3(0, 0, -DistanceBetweenPoints * 1),
+                new Vector3(DistanceBetweenPoints * 1, 0, -DistanceBetweenPoints * 1),
+                new Vector3(DistanceBetweenPoints * 2, 0, -DistanceBetweenPoints * 1),
+                new Vector3(DistanceBetweenPoints * 2, 0, 0)
+            }
         };
-        private readonly Vector3[] _shortestPath2 =
+        private static readonly GameObject[][] Walls =
         {
-            Vector3.zero,
-            new Vector3(0, 0, -DistanceBetweenPoints * 1),
-            new Vector3(DistanceBetweenPoints * 1, 0, -DistanceBetweenPoints * 1),
-            new Vector3(DistanceBetweenPoints * 2, 0, -DistanceBetweenPoints * 1),
-            new Vector3(DistanceBetweenPoints * 2, 0, 0)
+            Array.Empty<GameObject>(),
+            new []
+            {
+                new GameObject
+                {
+                    transform =
+                    {
+                        position = Vector3.right
+                    }
+                }
+            }
         };
 
+        [Sequential]
         [Test]
-        public void FindShortestPathTest1()
+        public void FindShortestPathTest([ValueSource(nameof(Walls))]GameObject[] walls, 
+            [ValueSource(nameof(ExpectedPaths))] IEnumerable expectedPath)
         {
-            GameObject[] walls = Array.Empty<GameObject>();
-            FindShortestPathTest(walls, _shortestPath1);
-        }
-        [Test]
-        public void FindShortestPathTest2()
-        {
-            var wall = new GameObject();
-            wall.transform.position = new Vector3(1, 0, 0);
-
-            GameObject[] walls = {wall};
-            FindShortestPathTest(walls, _shortestPath2);
-        }
-
-        private void FindShortestPathTest(GameObject[] walls, IEnumerable expectedPath)
-        {
-            CreatePathfinder(out IPathfinder pathfinder);
+            IPathfinder pathfinder = CreatePathfinder();
             
             var field = new FieldContainer(
                 Rows,
@@ -63,10 +67,10 @@ namespace AI.Pathfinding
             Vector3[] foundedPath = fieldPathFinder.FindShortestPath(_start, _goal);
             Assert.AreEqual(foundedPath, expectedPath);
         }
-        
-        private void CreatePathfinder(out IPathfinder pathfinder)
+
+        private IPathfinder CreatePathfinder()
         {
-            pathfinder = new AStarPathfinder();
+            return new AStarPathfinder();
         }
     }
 }
