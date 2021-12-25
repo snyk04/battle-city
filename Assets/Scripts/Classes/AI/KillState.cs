@@ -81,7 +81,8 @@ namespace BattleCity.AI
         {
             var ray = new Ray(BotInfo.Transform.position, botToTargetVector);
             return Physics.Raycast(ray, out RaycastHit hitInfo, BotInfo.TanksLayerMask)
-                   && hitInfo.collider.TryGetComponent(out MovementInputComponent _);
+                   && (hitInfo.collider.TryGetComponent(out MovementInputComponent _) 
+                       || hitInfo.collider.transform == BotInfo.Base);
         }
         private bool IsReadyToShoot()
         {
