@@ -66,10 +66,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f25927b010eb54449952d6454242299c, type: 2}
-  - {fileID: 2100000, guid: f25927b010eb54449952d6454242299c, type: 2}
-  - {fileID: 2100000, guid: f25927b010eb54449952d6454242299c, type: 2}
-  - {fileID: 2100000, guid: f25927b010eb54449952d6454242299c, type: 2}
+  - {fileID: 2100000, guid: 1e2d8deae79e13547a7875a7c3f654f4, type: 2}
+  - {fileID: 2100000, guid: f22cade3dc5b6d241a3f8f54c00f280e, type: 2}
+  - {fileID: 2100000, guid: 6e3e86659d5452046982f1f63948362c, type: 2}
+  - {fileID: 2100000, guid: c677a80e7ec54c144a9c3af05647a1c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,9 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpawner: {fileID: 0}
-  _levelWallsLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
+  _base: {fileID: 0}
   _tanksLayerMask:
     serializedVersion: 2
     m_Bits: 64
