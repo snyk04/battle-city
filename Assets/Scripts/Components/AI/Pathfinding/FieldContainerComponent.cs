@@ -79,5 +79,37 @@ namespace BattleCity.AI.Pathfinding
 
             throw new ArgumentException("Distance between points differ on x and y axes");
         }
+        private void OnDrawGizmos()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+            var n = FieldContainer.Field.GetLength(0);
+            var m = FieldContainer.Field.GetLength(1);
+            for (var x = 0; x < n; x++)
+            {
+                for (var y = 0; y < m; y++)
+                {
+                    var cell = FieldContainer.Field[x, y];
+                    switch (cell)
+                    {
+                        case BotTankCell _:
+                            Gizmos.color = Color.red;
+                            break;
+                        case WallCell _:
+                            Gizmos.color = Color.blue;
+                            break;
+                        case PlayerTankCell _:
+                            Gizmos.color = Color.green;
+                            break;
+                        default: 
+                            continue;
+                    }
+
+                    Gizmos.DrawCube(FieldContainer.Converter.Convert(new Vector2Int(x, y)), Vector3.one);
+                }
+            }
+        }
     }
 }
