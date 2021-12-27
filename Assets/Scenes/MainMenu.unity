@@ -1503,6 +1503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1580003469}
   - component: {fileID: 1580003470}
+  - component: {fileID: 1580003471}
   m_Layer: 0
   m_Name: AudioMutenessButtons
   m_TagString: Untagged
@@ -1533,9 +1534,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1580003468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37ddb4589133448e83a835ed3495d8ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 85ed2d7a0b4b4fd99c3ebf7424708664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _image: {fileID: 801733099}
+  _mutedSprite: {fileID: 21300000, guid: e918e88d5a67ea04da66642f2ba77384, type: 3}
+  _unMutedSprite: {fileID: 21300000, guid: d519bacc78a51224391ae5fa03875335, type: 3}
+--- !u!114 &1580003471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580003468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa652cbf83249cb981a09806b4af973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 662777787}
+  _mutedSprite: {fileID: 21300000, guid: aec045f7b0c7b5e43a9547ca9b375d35, type: 3}
+  _unMutedSprite: {fileID: 21300000, guid: 8026388ccbe0264428fea7f172cbc32e, type: 3}
 --- !u!1 &1765969122
 GameObject:
   m_ObjectHideFlags: 0
