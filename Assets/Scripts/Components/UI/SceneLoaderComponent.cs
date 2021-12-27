@@ -1,12 +1,9 @@
-﻿using BattleCity.Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BattleCity.UI
 {
     public class SceneLoaderComponent : MonoBehaviour
     {
-        [SerializeField] private float _loadingTime;
-        
         public SceneLoader SceneLoader { get; private set; }
 
         private void Awake()

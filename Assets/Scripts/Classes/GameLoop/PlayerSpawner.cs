@@ -5,33 +5,33 @@ using Object = UnityEngine.Object;
 
 namespace BattleCity.GameLoop
 {
-    public class PlayerSpawner : IPlayerTracker
+    public class PlayerSpawner : ITankSpawner, IPlayerTracker
     {
         private readonly GameObject _playerPrefab;
         private readonly Vector3 _spawnPoint;
-        private int _amountOfLives;
+        public int AmountOfLives { get; private set; }
 
         private GameObject _player;
         public Transform Player => _player != null ? _player.transform : null;
 
-        public event Action OnGameOver;
+        public event Action NoLivesLeft;
 
         public PlayerSpawner(GameObject playerPrefab, Vector3 spawnPoint, int amountOfLives)
         {
             _playerPrefab = playerPrefab;
             _spawnPoint = spawnPoint;
-            _amountOfLives = amountOfLives;
+            AmountOfLives = amountOfLives;
 
             SpawnPlayer();
         }
 
         private void TryToRespawnPlayer()
         {
-            _amountOfLives -= 1;
+            AmountOfLives -= 1;
 
-            if (_amountOfLives <= 0)
+            if (AmountOfLives <= 0)
             {
-                OnGameOver?.Invoke();
+                NoLivesLeft?.Invoke();
                 return;
             }
 

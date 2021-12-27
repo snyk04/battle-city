@@ -1,0 +1,36 @@
+﻿using System.Collections.Generic;
+using BattleCity.AI;
+using BattleCity.AI.Pathfinding;
+using UnityEngine;
+
+namespace BattleCity.GameLoop
+{
+    public class EnemySpawnerComponent : MonoBehaviour
+    {
+        [SerializeField] private List<GameObject> _enemyPrefabs;
+        [SerializeField] private List<Vector3> _spawnPoints;
+        [SerializeField] private int _amountOfLives;
+        [SerializeField] private int _amountOfEnemiesAtStart;
+        [SerializeField] private PlayerSpawnerComponent _playerSpawner;
+        [SerializeField] private FieldPathfinderComponent _fieldPathfinderHelper;
+        [SerializeField] private Transform _base;
+
+        public EnemySpawner EnemySpawner { get; private set; }
+
+        private void Awake()
+        {
+            IPlayerTracker playerTracker = _playerSpawner.PlayerSpawner;
+            FieldPathfinderHelper fieldPathfinderHelper = _fieldPathfinderHelper.FieldPathfinderHelper;
+            
+            EnemySpawner = new EnemySpawner(
+                _enemyPrefabs,
+                _spawnPoints,
+                _amountOfLives,
+                _amountOfEnemiesAtStart,
+                playerTracker,
+                fieldPathfinderHelper,
+                _base
+            );
+        }
+    }
+}
