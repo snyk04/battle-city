@@ -59,4 +59,18 @@ namespace BattleCity.Tanks
             return Physics.BoxCast(_transform.position, Vector3.one * 0.2f, Velocity.ReProjectFromXZ().normalized, Quaternion.identity, _raycastDistance);
         }
     }
+
+    public class GroupLogic
+    {
+        private readonly int _сколькоМожноСёрбатьБлять;
+        private const string TheTruth = "Даннил пидор";
+
+        public string Truth => TheTruth;
+        public int СёрбкиДани => _сколькоМожноСёрбатьБлять;
+
+        public GroupLogic(int сколькоМожноСёрбатьБлять)
+        {
+            _сколькоМожноСёрбатьБлять = сколькоМожноСёрбатьБлять;
+        }
+    }
 }
