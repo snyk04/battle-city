@@ -1,5 +1,6 @@
 ﻿using System;
 using BattleCity.Tanks;
+using UnityEngine;
 
 namespace BattleCity.GameLoop
 {
@@ -9,9 +10,15 @@ namespace BattleCity.GameLoop
 
         public GameFinisher(Damageable baseDamageable, ITankSpawner playerSpawner, ITankSpawner enemySpawner)
         {
-            baseDamageable.OnDestroy += () => GameFinished?.Invoke(GameFinishType.Defeat);
-            playerSpawner.NoLivesLeft += () => GameFinished?.Invoke(GameFinishType.Defeat);
-            enemySpawner.NoLivesLeft += () => GameFinished?.Invoke(GameFinishType.Victory);
+            baseDamageable.OnDestroy += () => FinishGame(GameFinishType.Defeat);
+            playerSpawner.NoLivesLeft += () => FinishGame(GameFinishType.Defeat);
+            enemySpawner.NoLivesLeft += () => FinishGame(GameFinishType.Victory);
+        }
+
+        private void FinishGame(GameFinishType gameFinishType)
+        {
+            GameFinished?.Invoke(gameFinishType);
+            Time.timeScale = 0;
         }
     }
 }
