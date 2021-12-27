@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using BattleCity.AI;
 using NUnit.Framework;
 using UnityEngine;
@@ -15,16 +16,16 @@ namespace AI.Pathfinding
 
         private readonly Vector3 _start = Vector3.zero;
         private readonly Vector3 _goal = new Vector3(DistanceBetweenPoints * 2, 0, 0);
-        
+
         private static readonly Vector3[][] ExpectedPaths =
         {
-            new [] 
+            new[]
             {
                 Vector3.zero,
                 new Vector3(DistanceBetweenPoints * 1, 0, 0),
                 new Vector3(DistanceBetweenPoints * 2, 0, 0)
             },
-            new [] 
+            new[]
             {
                 Vector3.zero,
                 new Vector3(0, 0, -DistanceBetweenPoints * 1),
@@ -36,7 +37,7 @@ namespace AI.Pathfinding
         private static readonly GameObject[][] Walls =
         {
             Array.Empty<GameObject>(),
-            new []
+            new[]
             {
                 new GameObject
                 {
@@ -50,21 +51,21 @@ namespace AI.Pathfinding
 
         [Sequential]
         [Test]
-        public void FindShortestPathTest([ValueSource(nameof(Walls))]GameObject[] walls, 
+        public void FindShortestPathTest([ValueSource(nameof(Walls))] GameObject[] walls,
             [ValueSource(nameof(ExpectedPaths))] IEnumerable expectedPath)
         {
             IPathfinder pathfinder = CreatePathfinder();
-            
+
             var field = new FieldContainer(
                 Rows,
                 Columns,
-                walls,
+                walls.ToList(),
                 _topLeftPointPosition,
-                DistanceBetweenPoints
-                );
+                DistanceBetweenPoints, null, null // todo
+            );
             var fieldPathFinder = new FieldPathfinderHelper(field, pathfinder);
 
-            Vector3[] foundedPath = fieldPathFinder.FindShortestPath(_start, _goal);
+            Vector3[] foundedPath = fieldPathFinder.FindShortestPath(_start, _goal, null, out _); // todo
             Assert.AreEqual(foundedPath, expectedPath);
         }
 

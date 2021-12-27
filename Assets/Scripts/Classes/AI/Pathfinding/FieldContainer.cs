@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using BattleCity.Common;
+using BattleCity.GameLoop;
 using BattleCity.Tanks;
 using UnityEngine;
 
@@ -8,39 +13,55 @@ namespace BattleCity.AI
     {
         private readonly int _rows;
         private readonly int _columns;
-        private readonly GameObject[] _walls;
+        private readonly List<GameObject> _walls;
+        private readonly IPlayerTracker _playerTracker;
+        private readonly List<BotInfo> _bots;
         public readonly Vector3 TopLeftPointPosition;
         public readonly float DistanceBetweenPoints;
         public readonly SceneFieldCoordinatesConverter Converter;
 
-        private Vector2Int[] _wallCoordinates;
+        private List<Vector2Int> _wallCoordinates;
 
-        public bool[,] Field { get; private set; }
+        public ICell[,] Field { get; private set; }
 
-        public FieldContainer(int rows, int columns, GameObject[] walls, Vector3 topLeftPointPosition,
-            float distanceBetweenPoints)
+        public FieldContainer(int rows, int columns, List<GameObject> walls, Vector3 topLeftPointPosition,
+            float distanceBetweenPoints, IPlayerTracker playerTracker, List<BotInfo> bots)
         {
             _rows = rows;
             _columns = columns;
             _walls = walls;
             TopLeftPointPosition = topLeftPointPosition;
             DistanceBetweenPoints = distanceBetweenPoints;
+            _playerTracker = playerTracker;
+            _bots = bots;
 
             Converter = new SceneFieldCoordinatesConverter(TopLeftPointPosition, DistanceBetweenPoints);
 
             HandleWalls();
+            SubscribeToBotsOnDestroy();
             InitializeField();
+        }
+        private void SubscribeToBotsOnDestroy()
+        {
+            foreach (var bot in _bots)
+            {
+                bot.Damageable.OnDestroy += () => OnBotDestroy(bot);
+            }
+        }
+        private void OnBotDestroy(BotInfo botInfo)
+        {
+            _bots.Remove(botInfo);
         }
 
         private void HandleWalls()
         {
-            _wallCoordinates = new Vector2Int[_walls.Length];
-            for (int i = 0; i < _walls.Length; i++)
+            _wallCoordinates = new List<Vector2Int>(_walls.Count);
+            for (int i = 0; i < _walls.Count; i++)
             {
                 GameObject wall = _walls[i];
                 Vector3 scenePosition = wall.transform.position;
                 Vector2Int fieldCoordinates = Converter.Convert(scenePosition);
-                _wallCoordinates[i] = fieldCoordinates;
+                _wallCoordinates.Add(fieldCoordinates);
 
                 if (wall.TryGetComponent(out DamageableComponent damageableComponent))
                 {
@@ -51,23 +72,123 @@ namespace BattleCity.AI
         }
         private void InitializeField()
         {
-            Field = new bool[_rows, _columns];
-            for (int i = 0; i < _rows; i++)
+            Field = new ICell[_rows, _columns];
+            UpdateField();
+        }
+        public bool[,] GetFieldBoolRepresentation(Mover caller)
+        {
+            var n = Field.GetLength(0);
+            var m = Field.GetLength(1);
+            var result = new bool[n, m];
+            for (int i = 0; i < n; i++)
             {
-                for (int j = 0; j < _columns; j++)
+                for (int j = 0; j < m; j++)
                 {
-                    Field[i, j] = !PointIsAWall(new Vector2Int(i, j));
+                    result[i, j] = Field[i, j].CanBePassed(caller);
                 }
             }
+            return result;
+        }
+        public void UpdateField()
+        {
+            Field.FillByNulls();
+            AddBotsPositionsToField();
+            AddPlayerPositionToField();
+            AddWallsPositionToField();
+            var n = Field.GetLength(0);
+            var m = Field.GetLength(1);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    if (Field[i, j] == null) // todo check (i, j) or (j, i)
+                    {
+                        Field[i, j] = new EmptyCell();
+                    }
+                }
+            }
+
+
+        }
+        private void AddWallsPositionToField()
+        {
+            foreach (var wallPos in _wallCoordinates)
+            {
+                OccupyCellByWall(wallPos);
+
+            }
+        }
+        private void AddPlayerPositionToField()
+        {
+            Vector2Int pos = Converter.Convert(_playerTracker.Player.position);
+            OccupyCellByPlayer(pos);
+        }
+        private void AddBotsPositionsToField()
+        {
+            foreach (var bot in _bots)
+            {
+                Vector2Int pos = Converter.Convert(bot.Position);
+                SetOccupiedCells(bot, pos);
+
+            }
+        }
+        private void SetOccupiedCells(BotInfo bot, Vector2Int pos)
+        {
+            bot.OccupiedCells.ForEach(localPos => OccupyCell(bot, pos + localPos));
+        }
+        private void OccupyCell(BotInfo bot, Vector2Int pos)
+        {
+            if (!IsFieldContainsPos(pos))
+            {
+                return;
+            }
+            Field[pos.x, pos.y] = new BotTankCell(bot.Mover);
+        }
+        private void OccupyCell(Type type, Vector2Int pos)
+        {
+            if (!IsFieldContainsPos(pos))
+            {
+                return;
+            }
+            Field[pos.x, pos.y] = (ICell) type.GetConstructor(new[]
+            {
+                typeof(Mover)
+            })?.Invoke(null);
+        }
+        private void OccupyCellByPlayer(Vector2Int pos)
+        {
+            if (!IsFieldContainsPos(pos))
+            {
+                return;
+            }
+            Field[pos.x, pos.y] = new PlayerTankCell();
+        }
+        private void OccupyCellByWall(Vector2Int pos)
+        {
+            if (!IsFieldContainsPos(pos))
+            {
+                return;
+            }
+            Field[pos.x, pos.y] = new WallCell();
+        }
+        private bool IsFieldContainsPos(Vector2Int pos)
+        {
+            if (pos.x < 0 || pos.y < 0)
+            {
+                return false;
+            }
+            var n = Field.GetLength(0);
+            var m = Field.GetLength(1);
+            return pos.x < n && pos.y < m;
+
         }
 
-        private bool PointIsAWall(in Vector2Int pointPosition)
+        private void DestroyWall(Vector2Int wallPosition)
         {
-            return ((IList) _wallCoordinates).Contains(pointPosition);
-        }
-        private void DestroyWall(in Vector2Int wallPosition)
-        {
-            Field[wallPosition.x, wallPosition.y] = true;
+            var wall = _walls.Find(wall => Converter.Convert(wall.transform.position).Equals(wallPosition));
+            _walls.Remove(wall);
+            _wallCoordinates.Remove(wallPosition);
+            Field[wallPosition.x, wallPosition.y] = new EmptyCell();
         }
 
         /*public Vector2Int SceneToFieldCoordinates(in Vector3 scenePosition)

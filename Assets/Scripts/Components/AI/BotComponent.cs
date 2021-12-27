@@ -23,7 +23,6 @@ namespace BattleCity.AI
             Mover mover = GetComponent<MoverComponent>().Mover;
             Shooter shooter = GetComponent<ShooterComponent>().Shooter;
             IPlayerTracker playerTracker = _playerSpawner.PlayerSpawner;
-            FieldPathfinderHelper fieldPathfinderHelper = _fieldPathfinder.FieldPathfinderHelper;
 
             var botInfo = new BotInfo(
                 mover,
@@ -34,7 +33,8 @@ namespace BattleCity.AI
                 _tanksLayerMask,
                 _pauseBeforeShot,
                 _pauseAfterShot,
-                fieldPathfinderHelper
+                _fieldPathfinder,
+                GetComponent<DamageableComponent>().Damageable
             );
 
             Bot = new Bot(botInfo);

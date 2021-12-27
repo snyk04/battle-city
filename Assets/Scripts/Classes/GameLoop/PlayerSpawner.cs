@@ -12,8 +12,8 @@ namespace BattleCity.GameLoop
         private int _amountOfLives;
 
         private GameObject _player;
+        private Mover _playerMover;
         public Transform Player => _player != null ? _player.transform : null;
-
         public event Action OnGameOver;
 
         public PlayerSpawner(GameObject playerPrefab, Vector3 spawnPoint, int amountOfLives)
@@ -40,6 +40,7 @@ namespace BattleCity.GameLoop
         private void SpawnPlayer()
         {
             _player = Object.Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity);
+            _playerMover = _player.GetComponent<MoverComponent>().Mover;
 
             Damageable playerDamageable = _player.GetComponent<DamageableComponent>().Damageable;
             playerDamageable.OnDestroy += TryToRespawnPlayer;

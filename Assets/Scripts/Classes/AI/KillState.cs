@@ -3,6 +3,7 @@
 using System;
 using BattleCity.Common;
 using BattleCity.Input;
+using BattleCity.Tanks;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -22,11 +23,12 @@ namespace BattleCity.AI
         private bool _preparingToShoot;
         private float _preparingStartTime;
         private Vector3 _currentGoalPoint;
+        public Mover Owner { get; set; }
 
         public KillState(BotInfo botInfo, Transform target) : base(botInfo)
         {
             _target = target;
-
+            Owner = botInfo.Mover;
             UpdateGoalPoint();
         }
 
@@ -126,7 +128,7 @@ namespace BattleCity.AI
         }
         private void UpdateGoalPoint()
         {
-            Vector3[]? path = BotInfo.FieldPathfinderHelper.FindShortestPath(BotInfo.Position, _target.position);
+            Vector3[]? path = BotInfo.FieldPathfinderHelper.FindShortestPath(BotInfo.Position, _target.position, Owner, out _);
 
             if (path == null)
             {

@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BattleCity.Common;
+using BattleCity.GameLoop;
 using UnityEngine;
 
 namespace BattleCity.AI.Pathfinding
 {
     public class FieldContainerComponent : MonoBehaviour
     {
-        [Header("Field settings")] 
+        [Header("Field settings")]
         [SerializeField] private int _rows;
         [SerializeField] private int _columns;
-        [SerializeField] private GameObject[] _walls;
+        [SerializeField] private List<GameObject> _walls;
+        [SerializeField] private PlayerSpawnerComponent _playerSpawnerComponent;
+        [SerializeField] private List<BotComponent> _botsComponents;
 
         [Header("Coordinates converting settings")] [SerializeField]
         private Transform _topLeftPoint;
@@ -22,6 +27,14 @@ namespace BattleCity.AI.Pathfinding
 
         private void Awake()
         {
+            if (!_botsComponents.Any())
+            {
+                _botsComponents = FindObjectsOfType<BotComponent>().ToList();
+            }
+        }
+
+        private void Start()
+        {
             Vector3 topLeftPos = _topLeftPoint.position;
             _distanceBetweenPoints =
                 CalculateDistanceBetweenPoints(topLeftPos, _bottomRightPoint.position, _rows, _columns);
@@ -32,8 +45,15 @@ namespace BattleCity.AI.Pathfinding
                 _columns,
                 _walls,
                 topLeftCellCenter,
-                _distanceBetweenPoints
+                _distanceBetweenPoints,
+                _playerSpawnerComponent.PlayerSpawner,
+                _botsComponents.Select(botComponent => botComponent.Bot.BotInfo).ToList()
             );
+        }
+
+        private void Update()
+        {
+            FieldContainer.UpdateField();
         }
 
         private float CalculateDistanceBetweenPoints(Vector3 topLeftPointPos, Vector3 bottomRightPointPos, int rows,

@@ -67,6 +67,7 @@ namespace BattleCity.AI
         }
         private async Task MakeDecisionAsync(CancellationToken cancellation)
         {
+            await Task.Yield();
             while (!cancellation.IsCancellationRequested)
             {
                 MakeDecision();

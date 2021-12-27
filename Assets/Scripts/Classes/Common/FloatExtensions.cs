@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BattleCity.Common
 {
@@ -14,4 +15,5 @@ namespace BattleCity.Common
             return Math.Abs(num1 - num2) < accuracy;
         }
     }
+
 }

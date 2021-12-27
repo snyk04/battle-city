@@ -8,7 +8,7 @@ namespace BattleCity.AI.Pathfinding
 
         public FieldPathfinderHelper FieldPathfinderHelper { get; private set; }
 
-        private void Awake()
+        private void Start()
         {
             FieldPathfinderHelper = new FieldPathfinderHelper(_fieldContainer.FieldContainer, new AStarPathfinder());
         }

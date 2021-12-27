@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using System.Linq;
+using BattleCity.Tanks;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -17,21 +18,26 @@ namespace BattleCity.AI
             _pathfinder = pathfinder;
         }
 
-        public Vector3[]? FindShortestPath(Vector3 start, Vector3 goal)
+        public Vector3[]? FindShortestPath(Vector3 start, Vector3 goal, Mover caller, out bool goalCanBeReached)
         {
-            Vector2Int[]? fieldPath = _pathfinder.FindShortestPath(
+            Vector2Int[]? fieldPath = _pathfinder.FindShortestPathOrPathToClosest(
                 Converter.Convert(start),
                 Converter.Convert(goal),
-                _fieldContainerManager.Field
+                _fieldContainerManager.GetFieldBoolRepresentation(caller),
+                out goalCanBeReached
             );
 
 
             return fieldPath?.Select(Converter.Convert).ToArray();
         }
-        public int GetShortestPathLength(Vector2 start, Vector2 goal)
+        public int GetShortestPathLength(Vector2 start, Vector2 goal, Mover caller)
         {
-            Vector3[]? path = FindShortestPath(start, goal);
-
+            // todo make out length param in FindShortestPath
+            Vector2Int[]? path = _pathfinder.FindShortestPath(
+                Converter.Convert(start),
+                Converter.Convert(goal),
+                _fieldContainerManager.GetFieldBoolRepresentation(caller)
+            );
             return path?.Length ?? 0;
         }
     }

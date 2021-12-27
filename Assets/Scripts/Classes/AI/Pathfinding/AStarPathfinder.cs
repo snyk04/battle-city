@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace BattleCity.AI
@@ -11,7 +12,34 @@ namespace BattleCity.AI
 
         public Vector2Int[] FindShortestPath(in Vector2Int start, in Vector2Int goal, in bool[,] field)
         {
-            var closedSet = new List<Node>();
+            return TryGetShortestPath(start, goal, field, out _, out var shortestPath) ? shortestPath : null;
+
+        }
+        public Vector2Int[] FindShortestPathOrPathToClosest(in Vector2Int start, in Vector2Int goal, in bool[,] field,
+            out bool goalCanBeReached)
+        {
+            goalCanBeReached = true;
+            if (TryGetShortestPath(start, goal, field, out List<Node> closedSet, out var shortestPath))
+            {
+                return shortestPath;
+            }
+
+            goalCanBeReached = false;
+            Node closestNode = null;
+            int minDistance = int.MaxValue;
+            foreach (var node in closedSet.Where(node => (node.ApproximatePathLength == minDistance
+                                                          && node.DistanceFromStart < (closestNode?.DistanceFromStart ?? int.MaxValue))
+                                                         || node.ApproximatePathLength < minDistance))
+            {
+                closestNode = node;
+                minDistance = node.ApproximatePathLength;
+            }
+            return GetPathFromStartToNode(closestNode);
+        }
+        private bool TryGetShortestPath(Vector2Int start, Vector2Int goal, bool[,] field, out List<Node> closedSet, [CanBeNull] out Vector2Int[] shortestPath)
+        {
+            shortestPath = null;
+            closedSet = new List<Node>();
             var openSet = new List<Node>();
 
             var startNode = new Node
@@ -29,7 +57,10 @@ namespace BattleCity.AI
 
                 if (currentNode.Position == goal)
                 {
-                    return GetPathFromStartToNode(currentNode);
+                    {
+                        shortestPath = GetPathFromStartToNode(currentNode);
+                        return true;
+                    }
                 }
 
                 openSet.Remove(currentNode);
@@ -55,23 +86,20 @@ namespace BattleCity.AI
                     }
                 }
             }
-
-            return null;
+            return false;
         }
 
         private IEnumerable<Node> GetValidNeighbours(Node node, Vector2Int goal, bool[,] field)
         {
-            return (
-                from uncheckedNeighbour in GetUncheckedNeighbours(node)
-                where NeighbourIsValid(uncheckedNeighbour, field)
-                select new Node
+            return GetUncheckedNeighbours(node)
+                .Where(uncheckedNeighbour => NeighbourIsValid(uncheckedNeighbour, field))
+                .Select(uncheckedNeighbour => new Node
                 {
                     Position = uncheckedNeighbour,
                     CameFrom = node,
                     DistanceFromStart = node.DistanceFromStart + DistanceBetweenNeighbours,
                     ApproximatePathLength = CalculateApproximatePathLength(uncheckedNeighbour, goal)
-                }
-            ).ToArray();
+                });
         }
         private IEnumerable<Vector2Int> GetUncheckedNeighbours(in Node node)
         {
