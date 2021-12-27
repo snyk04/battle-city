@@ -1,4 +1,5 @@
-﻿using BattleCity.Common;
+﻿using System;
+using BattleCity.Common;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,6 +16,8 @@ namespace BattleCity.Tanks
 
         private readonly GameObject _gameObject;
         private readonly Transform _transform;
+
+        public event Action OnShot;
 
         public Shooter(GameObject bulletPrefab, int bulletDamage, float bulletSpeed, Transform muzzleHole,
             GameObject gameObject)
@@ -44,6 +47,8 @@ namespace BattleCity.Tanks
             Vector3 shootDirection = _muzzleHole.forward.NullifyY();
 
             bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * shootDirection;
+            
+            OnShot?.Invoke();
         }
     }
 }
