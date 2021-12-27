@@ -12,7 +12,7 @@ namespace BattleCity.Tanks
         private readonly GameObject _bulletPrefab;
         private readonly int _bulletDamage;
         private readonly float _bulletSpeed;
-        public float ShotDelay { get; private set; }
+        public float ShotDelay { get; }
         private readonly Transform _muzzleHole;
 
         private readonly GameObject _gameObject;
@@ -33,6 +33,8 @@ namespace BattleCity.Tanks
 
             _gameObject = gameObject;
             _transform = gameObject.transform;
+
+            _lastShotTime = -shotDelay;
         }
 
         public void Shoot()
