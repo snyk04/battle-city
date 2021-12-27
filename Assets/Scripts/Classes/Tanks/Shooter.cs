@@ -12,19 +12,23 @@ namespace BattleCity.Tanks
         private readonly GameObject _bulletPrefab;
         private readonly int _bulletDamage;
         private readonly float _bulletSpeed;
+        public float ShotDelay { get; private set; }
         private readonly Transform _muzzleHole;
 
         private readonly GameObject _gameObject;
         private readonly Transform _transform;
 
-        public event Action OnShot;
+        private float _lastShotTime;
 
-        public Shooter(GameObject bulletPrefab, int bulletDamage, float bulletSpeed, Transform muzzleHole,
-            GameObject gameObject)
+        public event Action OnShot;
+        
+        public Shooter(GameObject bulletPrefab, int bulletDamage, float bulletSpeed, float shotDelay, 
+            Transform muzzleHole, GameObject gameObject)
         {
             _bulletPrefab = bulletPrefab;
             _bulletDamage = bulletDamage;
             _bulletSpeed = bulletSpeed;
+            ShotDelay = shotDelay;
             _muzzleHole = muzzleHole;
 
             _gameObject = gameObject;
@@ -33,6 +37,11 @@ namespace BattleCity.Tanks
 
         public void Shoot()
         {
+            if (!CanShoot())
+            {
+                return;
+            }
+            
             GameObject bullet = Object.Instantiate(
                 _bulletPrefab,
                 _muzzleHole.position,
@@ -48,7 +57,13 @@ namespace BattleCity.Tanks
 
             bullet.GetComponent<Rigidbody>().velocity = _bulletSpeed * shootDirection;
             
+            _lastShotTime = Time.time;
             OnShot?.Invoke();
+        }
+
+        private bool CanShoot()
+        {
+            return Time.time - _lastShotTime > ShotDelay;
         }
     }
 }

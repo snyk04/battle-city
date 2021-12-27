@@ -14,14 +14,13 @@ namespace BattleCity.AI
         public readonly IPlayerTracker PlayerTracker;
         public readonly Transform Base;
         public readonly LayerMask TanksLayerMask;
-        public readonly float PauseBeforeShot;
-        public readonly float PauseAfterShot;
+        public readonly float ShotDelay;
         public readonly FieldPathfinderHelper FieldPathfinderHelper;
 
         public Vector3 Position => Transform.position;
 
         public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, Transform @base,
-            LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot,
+            LayerMask tanksLayerMask, float shotDelay,
             FieldPathfinderHelper fieldPathfinderHelper)
         {
             Mover = mover;
@@ -30,8 +29,7 @@ namespace BattleCity.AI
             PlayerTracker = playerTracker;
             Base = @base;
             TanksLayerMask = tanksLayerMask;
-            PauseBeforeShot = pauseBeforeShot;
-            PauseAfterShot = pauseAfterShot;
+            ShotDelay = shotDelay;
             FieldPathfinderHelper = fieldPathfinderHelper;
         }
 

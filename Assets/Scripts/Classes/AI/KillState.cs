@@ -19,8 +19,6 @@ namespace BattleCity.AI
         private readonly Transform _target;
 
         private float _lastShotTime;
-        private bool _preparingToShoot;
-        private float _preparingStartTime;
         private Vector3 _currentGoalPoint;
 
         public KillState(BotInfo botInfo, Transform target) : base(botInfo)
@@ -44,7 +42,7 @@ namespace BattleCity.AI
 
         private void TryShootTarget()
         {
-            if (IsReloading())
+            if (!CanShoot())
             {
                 return;
             }
@@ -60,17 +58,12 @@ namespace BattleCity.AI
             {
                 return;
             }
-
-            if (!IsReadyToShoot())
-            {
-                return;
-            }
-
+            
             Shoot(botToTargetVector);
         }
-        private bool IsReloading()
+        private bool CanShoot()
         {
-            return Time.time - _lastShotTime < BotInfo.PauseAfterShot;
+            return Time.time - _lastShotTime > BotInfo.ShotDelay;
         }
         private bool TargetAtGunPoint(Vector3 botToTargetVector)
         {
@@ -84,20 +77,8 @@ namespace BattleCity.AI
                    && (hitInfo.collider.TryGetComponent(out MovementInputComponent _) 
                        || hitInfo.collider.transform == BotInfo.Base);
         }
-        private bool IsReadyToShoot()
-        {
-            if (_preparingToShoot)
-            {
-                return Time.time - _preparingStartTime > BotInfo.PauseBeforeShot;
-            }
-
-            _preparingToShoot = true;
-            _preparingStartTime = Time.time;
-            return false;
-        }
         private void Shoot(Vector3 shootDirection)
         {
-            _preparingToShoot = false;
             BotInfo.Transform.forward = shootDirection;
             BotInfo.Shooter.Shoot();
             _lastShotTime = Time.time;

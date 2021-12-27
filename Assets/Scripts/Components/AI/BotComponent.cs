@@ -12,8 +12,6 @@ namespace BattleCity.AI
         [SerializeField] private PlayerSpawnerComponent _playerSpawner;
         [SerializeField] private Transform _base;
         [SerializeField] private LayerMask _tanksLayerMask;
-        [SerializeField] private float _pauseBeforeShot;
-        [SerializeField] private float _pauseAfterShot;
         [SerializeField] private FieldPathfinderComponent _fieldPathfinder;
 
         public Bot Bot { get; private set; }
@@ -32,8 +30,7 @@ namespace BattleCity.AI
                 playerTracker,
                 _base,
                 _tanksLayerMask,
-                _pauseBeforeShot,
-                _pauseAfterShot,
+                shooter.ShotDelay,
                 fieldPathfinderHelper
             );
 
