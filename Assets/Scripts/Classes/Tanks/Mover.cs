@@ -10,15 +10,16 @@ namespace BattleCity.Tanks
     {
         private readonly float _speed;
         private readonly Transform _transform;
-
+        private readonly float _raycastDistance;
         private readonly CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
         public Vector2 Velocity { get; private set; }
 
-        public Mover(float speed, Transform transform)
+        public Mover(float speed, Transform transform, float raycastDistance = 0.1f)
         {
             _speed = speed;
             _transform = transform;
+            _raycastDistance = raycastDistance;
 
             MoveAsync(_cancellationSource.Token);
         }
@@ -33,6 +34,7 @@ namespace BattleCity.Tanks
                 _transform.forward = direction.ReProjectFromXZ();
             }
         }
+
         public void Dispose()
         {
             _cancellationSource.Cancel();
@@ -43,10 +45,18 @@ namespace BattleCity.Tanks
         {
             while (!cancellation.IsCancellationRequested)
             {
-                _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
+                if (Velocity != Vector2.zero && !Raycast())
+                {
+                    _transform.position += Time.deltaTime * Velocity.ReProjectFromXZ();
+                }
 
                 await Task.Yield();
             }
+        }
+
+        private bool Raycast()
+        {
+            return Physics.BoxCast(_transform.position, Vector3.one * 0.2f, Velocity.ReProjectFromXZ().normalized, Quaternion.identity, _raycastDistance);
         }
     }
 }
