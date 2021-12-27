@@ -1533,15 +1533,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1580003468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 921b474241bf4d6bb9980f2e65a39a35, type: 3}
+  m_Script: {fileID: 11500000, guid: 37ddb4589133448e83a835ed3495d8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allAudioMutenessButtonImage: {fileID: 801733099}
-  _musicMutenessButtonImage: {fileID: 662777787}
-  _allAudioMutedSprite: {fileID: 21300000, guid: e918e88d5a67ea04da66642f2ba77384, type: 3}
-  _allAudioUnMutedSprite: {fileID: 21300000, guid: d519bacc78a51224391ae5fa03875335, type: 3}
-  _musicMutedSprite: {fileID: 21300000, guid: aec045f7b0c7b5e43a9547ca9b375d35, type: 3}
-  _musicUnMutedSprite: {fileID: 21300000, guid: 8026388ccbe0264428fea7f172cbc32e, type: 3}
 --- !u!1 &1765969122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef36137f7dbe48b2a0e03cd25ba75bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadingTime: 0
 --- !u!1 &2078189557
 GameObject:
   m_ObjectHideFlags: 0

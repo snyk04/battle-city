@@ -3,47 +3,22 @@ using UnityEngine.UI;
 
 namespace BattleCity.UI
 {
-    public class AudioMutenessButtons
+    public abstract class AudioMutenessButton
     {
-        private readonly Image _allAudioMutenessButtonImage;
-        private readonly Image _musicMutenessButtonImage;
+        protected readonly Image ButtonImage;
+        protected readonly Sprite MutedSprite;
+        protected readonly Sprite UnMutedSprite;
 
-        private readonly Sprite _allAudioMutedSprite;
-        private readonly Sprite _allAudioUnMutedSprite;
-        private readonly Sprite _musicMutedSprite;
-        private readonly Sprite _musicUnMutedSprite;
-        
-        public AudioMutenessButtons(Image allAudioMutenessButtonImage, Image musicMutenessButtonImage, Sprite allAudioMutedSprite, Sprite allAudioUnMutedSprite, Sprite musicMutedSprite, Sprite musicUnMutedSprite)
+        protected AudioMutenessButton(Image buttonImage, Sprite mutedSprite, Sprite unMutedSprite)
         {
-            _allAudioMutenessButtonImage = allAudioMutenessButtonImage;
-            _musicMutenessButtonImage = musicMutenessButtonImage;
-            _allAudioMutedSprite = allAudioMutedSprite;
-            _allAudioUnMutedSprite = allAudioUnMutedSprite;
-            _musicMutedSprite = musicMutedSprite;
-            _musicUnMutedSprite = musicUnMutedSprite;
-
-            ConfigureAllAudioMutenessButton();
-            ConfigureMusicMutenessButton();
-            
-            AudioSettingsTransmitter.AllAudioMutenessChanged += ConfigureAllAudioMutenessButton;
-            AudioSettingsTransmitter.MusicMutenessChanged += ConfigureMusicMutenessButton;
+            ButtonImage = buttonImage;
+            MutedSprite = mutedSprite;
+            UnMutedSprite = unMutedSprite;
         }
 
-        private void ConfigureAllAudioMutenessButton()
+        protected virtual void ConfigureMutenessButton(bool isMuted)
         {
-            Sprite newSprite = AudioSettingsTransmitter.AllAudioMuted
-                ? _allAudioMutedSprite
-                : _allAudioUnMutedSprite;
-
-            _allAudioMutenessButtonImage.sprite = newSprite;
-        }
-        private void ConfigureMusicMutenessButton()
-        {
-            Sprite newSprite = AudioSettingsTransmitter.MusicMuted
-                ? _musicMutedSprite
-                : _musicUnMutedSprite;
-
-            _musicMutenessButtonImage.sprite = newSprite;
+            ButtonImage.sprite = isMuted ? MutedSprite : UnMutedSprite;
         }
     }
 }

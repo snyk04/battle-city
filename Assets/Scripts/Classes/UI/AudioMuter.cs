@@ -15,20 +15,20 @@ namespace BattleCity.UI
         
         public void SwitchAllAudioMuteness()
         {
-            if (AudioSettingsTransmitter.AllAudioMuted)
+            if (AudioSettingsTransmitter.MasterMuted)
             {
                 UnMuteAllAudio();
                 if (!AudioSettingsTransmitter.MusicMuted)
                 {
                     UnMuteMusic();
                 }
-                AudioSettingsTransmitter.AllAudioMuted = false;
+                AudioSettingsTransmitter.MasterMuted.Value = false;
             }
             else
             {
                 MuteAllAudio();
                 MuteMusic();
-                AudioSettingsTransmitter.AllAudioMuted = true;
+                AudioSettingsTransmitter.MasterMuted.Value = true;
             }
         }
         public void SwitchMusicMuteness()
@@ -36,12 +36,12 @@ namespace BattleCity.UI
             if (AudioSettingsTransmitter.MusicMuted)
             {
                 UnMuteMusic();
-                AudioSettingsTransmitter.MusicMuted = false;
+                AudioSettingsTransmitter.MusicMuted.Value = false;
             }
             else
             {
                 MuteMusic();
-                AudioSettingsTransmitter.MusicMuted = true;
+                AudioSettingsTransmitter.MusicMuted.Value = true;
             }
         }
         
@@ -71,7 +71,7 @@ namespace BattleCity.UI
         
         private void LoadMuteSettings()
         {
-            if (AudioSettingsTransmitter.AllAudioMuted)
+            if (AudioSettingsTransmitter.MasterMuted)
             {
                 MuteAllAudio();
             }

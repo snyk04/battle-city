@@ -2,31 +2,39 @@
 
 namespace BattleCity.UI
 {
-    public static class AudioSettingsTransmitter
+    public class AudioSettingsTransmitter : Observable<bool>
     {
-        public static bool AllAudioMuted
+        public static readonly AudioSettingsTransmitter MasterMuted = new AudioSettingsTransmitter();
+        public static readonly AudioSettingsTransmitter MusicMuted = new AudioSettingsTransmitter();
+    }
+
+    public class Observable<T>
+    {
+        public event Action<T> OnChange;
+
+        private T _value;
+
+        public T Value
         {
-            get => _allAudioMuted;
+            get => _value;
             set
             {
-                _allAudioMuted = value;
-                AllAudioMutenessChanged?.Invoke();
+                if (!value.Equals(_value))
+                {
+                    _value = value;
+                    OnChange?.Invoke(_value = value);
+                }
             }
         }
-        public static bool MusicMuted
+
+        public void Change(T isMuted)
         {
-            get => _musicMuted;
-            set
-            {
-                _musicMuted = value;
-                MusicMutenessChanged?.Invoke();
-            }
+            Value = isMuted;
         }
         
-        private static bool _allAudioMuted;
-        private static bool _musicMuted;
-
-        public static event Action AllAudioMutenessChanged;
-        public static event Action MusicMutenessChanged;
+        public static implicit operator T(Observable<T> observable)
+        {
+            return observable.Value;
+        }
     }
 }
