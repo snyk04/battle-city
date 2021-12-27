@@ -2010,6 +2010,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 952773004285455984, guid: dd05f6eb74de463418dfe8b12623c9f5, type: 3}
   m_PrefabInstance: {fileID: 989741787}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1023568594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1023568595}
+  - component: {fileID: 1023568596}
+  m_Layer: 0
+  m_Name: AudioMuter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1023568595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023568594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1187818419}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1023568596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023568594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ffac57b944ea9912098bd1b962419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicAudioSources:
+  - {fileID: 1716109496}
 --- !u!1001 &1046863917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2167,6 +2212,7 @@ Transform:
   - {fileID: 336338461}
   - {fileID: 1904876084}
   - {fileID: 1466447376}
+  - {fileID: 1023568595}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
