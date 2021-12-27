@@ -142,7 +142,7 @@ namespace BattleCity.AI
             {
                 return;
             }
-            Field[pos.x, pos.y] = new BotTankCell(bot.Mover);
+            Field[pos.x, pos.y] = Field[pos.x, pos.y] != null ? new BotTankCell(null) : new BotTankCell(bot.Mover);
         }
         private void OccupyCell(Type type, Vector2Int pos)
         {
