@@ -14,9 +14,9 @@ namespace BattleCity.UI
             UIElementsContainer = new UIElementsContainer(_uIElements, _isActiveByDefault);
         }
 
-        public void SwitchButtonsActiveness()
+        public void SwitchElementsActiveness()
         {
-            UIElementsContainer.SwitchButtonsActiveness();
+            UIElementsContainer.SwitchElementsActiveness();
         }
     }
 }

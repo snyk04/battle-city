@@ -6,24 +6,24 @@ namespace BattleCity.UI
     {
         private readonly GameObject[] _uIElements;
 
-        private bool _isActiveByDefault;
+        private bool _isActive;
         
         public UIElementsContainer(GameObject[] uIElements, bool isActiveByDefault)
         {
             _uIElements = uIElements;
             
-            _isActiveByDefault = isActiveByDefault;
-            ChangeButtonsActiveness(_isActiveByDefault);
+            _isActive = isActiveByDefault;
+            ChangeElementsActiveness(_isActive);
         }
 
-        public void SwitchButtonsActiveness()
+        public void SwitchElementsActiveness()
         {
-            _isActiveByDefault = !_isActiveByDefault;
+            _isActive = !_isActive;
             
-            ChangeButtonsActiveness(_isActiveByDefault);
+            ChangeElementsActiveness(_isActive);
         }
 
-        private void ChangeButtonsActiveness(bool isActive)
+        private void ChangeElementsActiveness(bool isActive)
         {
             foreach (GameObject uIElement in _uIElements)
             {
