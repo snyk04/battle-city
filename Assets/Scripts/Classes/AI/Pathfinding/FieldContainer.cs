@@ -120,8 +120,11 @@ namespace BattleCity.AI
         }
         private void AddPlayerPositionToField()
         {
-            Vector2Int pos = Converter.Convert(_playerTracker.Player.position);
-            OccupyCellByPlayer(pos);
+            if (_playerTracker.Player != null)
+            {
+                Vector2Int pos = Converter.Convert(_playerTracker.Player.position);
+                OccupyCellByPlayer(pos);
+            }
         }
         private void AddBotsPositionsToField()
         {

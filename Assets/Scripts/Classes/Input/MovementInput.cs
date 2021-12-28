@@ -38,6 +38,9 @@ namespace BattleCity.Input
         {
             _inputAction.performed -= StartMoving;
             _inputAction.canceled -= StopMoving;
+
+            // TODO : Use CancellationToken to stop Moving task instead of boolean
+            _isMoving = false;
         }
 
         private void StartMoving(InputAction.CallbackContext context)

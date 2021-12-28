@@ -13,6 +13,8 @@ namespace BattleCity.GameLoop
             baseDamageable.OnDestroy += () => FinishGame(GameFinishType.Defeat);
             playerSpawner.NoLivesLeft += () => FinishGame(GameFinishType.Defeat);
             enemySpawner.NoLivesLeft += () => FinishGame(GameFinishType.Victory);
+
+            Time.timeScale = 1;
         }
 
         private void FinishGame(GameFinishType gameFinishType)

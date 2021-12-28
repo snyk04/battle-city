@@ -26,10 +26,8 @@ namespace BattleCity.Tanks.Audio
             audioSource.clip = _destroySound;
             audioSource.volume = _volume;
             audioSource.Play();
-
-            int destroySoundLengthInMilliseconds = Mathf.RoundToInt(_destroySound.length * 1000);
-
-            Tasks.DoAfterDelay(() => Object.Destroy(audioSourceObject), destroySoundLengthInMilliseconds);
+            
+            Object.Destroy(audioSourceObject, _destroySound.length);
         }
     }
 }
