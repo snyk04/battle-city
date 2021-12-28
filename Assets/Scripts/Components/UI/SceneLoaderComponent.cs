@@ -15,5 +15,9 @@ namespace BattleCity.UI
         {
             SceneLoader.LoadScene(sceneId);
         }
+        public void LoadSceneAsync(int sceneId)
+        {
+            SceneLoader.LoadSceneAsync(sceneId);
+        }
     }
 }

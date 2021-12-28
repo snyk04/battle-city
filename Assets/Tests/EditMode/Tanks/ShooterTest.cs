@@ -11,6 +11,7 @@ namespace Tanks
         
         private const int BulletDamage = 1;
         private const float BulletSpeed = 1;
+        private const float ShotDelay = 0;
         private const string BulletName = "Bullet";
 
         private static readonly Vector3[] ShootDirections =
@@ -48,7 +49,7 @@ namespace Tanks
                 }
             };
             
-            return new Shooter(bulletPrefab, BulletDamage, BulletSpeed, muzzleHole.transform, shooterObject);
+            return new Shooter(bulletPrefab, BulletDamage, BulletSpeed, ShotDelay, muzzleHole.transform, shooterObject);
         }
     }
 }

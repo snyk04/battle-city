@@ -10,6 +10,7 @@ namespace BattleCity.AI
         
         private readonly BotInfo _botInfo;
 
+        // TODO : Change to enum
         private bool _isIdle;
         private Transform _lastTarget;
 
@@ -22,6 +23,7 @@ namespace BattleCity.AI
 
         public void MakeDecision()
         {
+            // TODO : Refactor
             Transform newTarget;
             if (_botInfo.Base == null && _botInfo.PlayerTracker.Player == null)
             {
@@ -55,8 +57,7 @@ namespace BattleCity.AI
             {
                 return;
             }
-
-
+            
             if (newTarget == _lastTarget)
             {
                 return;
