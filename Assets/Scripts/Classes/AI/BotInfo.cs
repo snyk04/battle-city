@@ -26,17 +26,15 @@ namespace BattleCity.AI
         public readonly IPlayerTracker PlayerTracker;
         public readonly Transform Base;
         public readonly LayerMask TanksLayerMask;
-        public readonly float PauseBeforeShot;
-        public readonly float PauseAfterShot;
+        public readonly float ShotDelay;
+        public readonly FieldPathfinderComponent FieldPathfinder;
         public FieldPathfinderHelper FieldPathfinderHelper => FieldPathfinder.FieldPathfinderHelper;
-        public FieldPathfinderComponent FieldPathfinder;
         public readonly List<Vector2Int> OccupiedCells;
-
 
         public Vector3 Position => Transform.position;
 
         public BotInfo(Mover mover, Shooter shooter, Transform transform, IPlayerTracker playerTracker, Transform @base,
-            LayerMask tanksLayerMask, float pauseBeforeShot, float pauseAfterShot,
+            LayerMask tanksLayerMask, float shotDelay,
             FieldPathfinderComponent fieldPathfinder, Damageable damageable)
         {
             Mover = mover;
@@ -45,8 +43,7 @@ namespace BattleCity.AI
             PlayerTracker = playerTracker;
             Base = @base;
             TanksLayerMask = tanksLayerMask;
-            PauseBeforeShot = pauseBeforeShot;
-            PauseAfterShot = pauseAfterShot;
+            ShotDelay = shotDelay;
             FieldPathfinder = fieldPathfinder;
             Damageable = damageable;
             OccupiedCells = DefaultOccupiedCells;
@@ -62,9 +59,6 @@ namespace BattleCity.AI
             PlayerTracker = playerTracker;
             Base = @base;
             TanksLayerMask = tanksLayerMask;
-            PauseBeforeShot = pauseBeforeShot;
-            PauseAfterShot = pauseAfterShot;
-            FieldPathfinder = fieldPathfinder;
             OccupiedCells = occupiedCells;
             Damageable = damageable;
         }

@@ -1,15 +1,18 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BattleCity.AI
 {
-    public class DecisionMaker
+    public class DecisionMaker : IDisposable
     {
         private const int UpdateFrequency = 1000;
         
         private readonly BotInfo _botInfo;
+        private readonly CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
+        // TODO : Change to enum
         private bool _isIdle;
         private Transform _lastTarget;
 
@@ -17,11 +20,18 @@ namespace BattleCity.AI
         {
             _botInfo = botInfo;
 
-            MakeDecisionAsync(new CancellationTokenSource().Token);
+            MakeDecisionAsync(_cancellationSource.Token);
         }
 
+        public void Dispose()
+        {
+            _cancellationSource.Cancel();
+            _cancellationSource.Dispose();
+        }
+        
         public void MakeDecision()
         {
+            // TODO : Refactor
             Transform newTarget;
             if (_botInfo.Base == null && _botInfo.PlayerTracker.Player == null)
             {
@@ -55,8 +65,7 @@ namespace BattleCity.AI
             {
                 return;
             }
-
-
+            
             if (newTarget == _lastTarget)
             {
                 return;
@@ -80,7 +89,6 @@ namespace BattleCity.AI
         {
             state.StateExpired += MakeDecision;
             _botInfo.ChangeState(state);
-            Debug.Log("State changed");
         }
     }
 }
