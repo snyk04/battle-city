@@ -41,5 +41,17 @@ namespace BattleCity.Common
             y = v.y;
             z = v.z;
         }
+
+        public static void Deconstruct(this Vector2 v, out float x, out float y)
+        {
+            x = v.x;
+            y = v.y;
+        }
+        public static void Deconstruct(this Vector3 v, out float x, out float y, out float z)
+        {
+            x = v.x;
+            y = v.y;
+            z = v.z;
+        }
     }
 }
