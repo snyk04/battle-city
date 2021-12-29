@@ -15,6 +15,7 @@ namespace BattleCity.GameLoop
         private Mover _playerMover;
         public Transform Player => _player != null ? _player.transform : null;
 
+        public event Action LivesReduced;
         public event Action NoLivesLeft;
 
         public PlayerSpawner(GameObject playerPrefab, Vector3 spawnPoint, int amountOfLives)
@@ -29,6 +30,7 @@ namespace BattleCity.GameLoop
         private void TryToRespawnPlayer()
         {
             AmountOfLives -= 1;
+            LivesReduced?.Invoke();
 
             if (AmountOfLives <= 0)
             {
