@@ -404,7 +404,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 9120784095698519579, guid: 4e04ae692eb48f74b9a7ee273278a09b, type: 3}
   _bulletDamage: 1
   _bulletSpeed: 5
-  _shotDelay: 1
+  _shotDelay: 0.3
   _muzzleHole: {fileID: 2067013204048697864}
 --- !u!114 &5998874276354710530
 MonoBehaviour:

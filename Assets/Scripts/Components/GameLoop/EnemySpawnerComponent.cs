@@ -31,5 +31,15 @@ namespace BattleCity.GameLoop
                 _base
             );
         }
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+
+            foreach (Vector3 spawnPoint in _spawnPoints)
+            {
+                Gizmos.DrawWireCube(spawnPoint, Vector3.one);
+            }
+        }
     }
 }

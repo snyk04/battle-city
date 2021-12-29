@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleCity.AI;
 using BattleCity.AI.Pathfinding;
 using BattleCity.Common;
@@ -62,20 +63,17 @@ namespace BattleCity.GameLoop
         {
             for (int i = 0; i < _amountOfEnemiesAtStart; i++)
             {
-                SpawnNewEnemy();
+                TrySpawnNewEnemy();
             }
         }
-        private void SpawnNewEnemy()
+        
+        private void TrySpawnNewEnemy()
         {
-            AmountOfLives -= 1;
-
-            if (AmountOfLives < 0)
+            if (!TryGetNewEnemyPrefab(out GameObject prefab))
             {
-                NoLivesLeft?.Invoke();
                 return;
             }
 
-            GameObject prefab = GetNewEnemyPrefab();
             Vector3 spawnPoint = GetFreeSpawnPoint();
             GameObject enemyObject = Object.Instantiate(prefab, spawnPoint, Quaternion.identity);
             var enemyBotComponent = enemyObject.GetComponent<BotComponent>();
@@ -84,12 +82,34 @@ namespace BattleCity.GameLoop
             enemyObject.transform.name = EnemyName;
             
             Damageable health = enemyObject.GetComponent<DamageableComponent>().Damageable;
-            health.OnDestroy += SpawnNewEnemy;
+            health.OnDestroy += HandleTankDeath;
         }
 
-        private GameObject GetNewEnemyPrefab()
+        private void HandleTankDeath()
         {
-            return _enemyPrefabs.Dequeue();
+            AmountOfLives--;
+
+            if (AmountOfLives <= 0)
+            {
+                NoLivesLeft?.Invoke();
+            }
+            
+            TrySpawnNewEnemy();
+        }
+
+        private bool TryGetNewEnemyPrefab(out GameObject enemy)
+        {
+            if (_enemyPrefabs.Any())
+            {
+                enemy = _enemyPrefabs.Dequeue();
+                Debug.Log("Dequeue");
+
+                return true;
+            }
+
+            enemy = null;
+            
+            return false;
         }
         private Vector3 GetFreeSpawnPoint()
         {

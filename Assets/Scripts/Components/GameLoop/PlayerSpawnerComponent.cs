@@ -27,5 +27,11 @@ namespace BattleCity.GameLoop
                 Debug.LogError("Player prefab is not valid!");
             }
         }
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(_spawnPoint, Vector3.one);
+        }
     }
 }
