@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -404,12 +404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a56ce2da4d94fb89b1e469371680215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpawner: {fileID: 0}
-  _base: {fileID: 0}
   _tanksLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _fieldPathfinder: {fileID: 0}
 --- !u!114 &3463578217491135166
 MonoBehaviour:
   m_ObjectHideFlags: 0
