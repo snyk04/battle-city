@@ -7,12 +7,14 @@ namespace BattleCity.UI
     {
         private readonly ITankSpawner _tankSpawner;
         private readonly Text _trackerText;
+        private readonly string _prefix;
 
-        public TankSpawnerLivesTracker(ITankSpawner tankSpawner, Text trackerText)
+        public TankSpawnerLivesTracker(ITankSpawner tankSpawner, Text trackerText, string prefix)
         {
             _tankSpawner = tankSpawner;
             _trackerText = trackerText;
-            
+            _prefix = prefix;
+
             UpdateTrackerText();
 
             _tankSpawner.LivesReduced += UpdateTrackerText;
@@ -20,8 +22,7 @@ namespace BattleCity.UI
 
         private void UpdateTrackerText()
         {
-            string newValue = _tankSpawner.AmountOfLives >= 0 ? _tankSpawner.AmountOfLives.ToString() : "0";
-            _trackerText.text = newValue;
+            _trackerText.text = $"{_prefix}{_tankSpawner.AmountOfLives}";
         }
     }
 }

@@ -8,12 +8,13 @@ namespace BattleCity.UI
     {
         [SerializeField] private TankSpawnerComponent _tankSpawner;
         [SerializeField] private Text _trackerText;
+        [SerializeField] private string _prefix;
         
         public TankSpawnerLivesTracker TankSpawnerLivesTracker { get; private set; }
 
         private void Awake()
         {
-            TankSpawnerLivesTracker = new TankSpawnerLivesTracker(_tankSpawner.TankSpawner, _trackerText);
+            TankSpawnerLivesTracker = new TankSpawnerLivesTracker(_tankSpawner.TankSpawner, _trackerText, _prefix);
         }
     }
 }
