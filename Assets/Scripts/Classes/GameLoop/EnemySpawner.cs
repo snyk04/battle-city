@@ -104,7 +104,6 @@ namespace BattleCity.GameLoop
             if (_enemyPrefabs.Any())
             {
                 enemy = _enemyPrefabs.Dequeue();
-                Debug.Log("Dequeue");
 
                 return true;
             }
