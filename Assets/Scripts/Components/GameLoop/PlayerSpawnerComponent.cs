@@ -4,17 +4,19 @@ using UnityEngine;
 
 namespace BattleCity.GameLoop
 {
-    public class PlayerSpawnerComponent : MonoBehaviour
+    public class PlayerSpawnerComponent : TankSpawnerComponent
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Vector3 _spawnPoint;
         [SerializeField] private int _amountOfLives;
 
         public PlayerSpawner PlayerSpawner { get; private set; }
+        public override ITankSpawner TankSpawner { get; protected set; }
 
         private void Awake()
         {
             PlayerSpawner = new PlayerSpawner(_playerPrefab, _spawnPoint, _amountOfLives);
+            TankSpawner = PlayerSpawner;
         }
         private void OnValidate()
         {

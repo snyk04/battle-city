@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using BattleCity.AI;
 using BattleCity.AI.Pathfinding;
 using UnityEngine;
 
 namespace BattleCity.GameLoop
 {
-    public class EnemySpawnerComponent : MonoBehaviour
+    public class EnemySpawnerComponent : TankSpawnerComponent
     {
         [SerializeField] private List<GameObject> _enemyPrefabs;
         [SerializeField] private List<Vector3> _spawnPoints;
@@ -16,6 +15,7 @@ namespace BattleCity.GameLoop
         [SerializeField] private Transform _base;
 
         public EnemySpawner EnemySpawner { get; private set; }
+        public override ITankSpawner TankSpawner { get; protected set; }
 
         private void Awake()
         {
@@ -30,6 +30,7 @@ namespace BattleCity.GameLoop
                 _fieldPathfinderHelper,
                 _base
             );
+            TankSpawner = EnemySpawner;
         }
     }
 }

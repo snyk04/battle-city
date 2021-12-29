@@ -11,7 +11,7 @@ namespace BattleCity.UI
 
         [Header("References")]
         [SerializeField] private GameFinisherComponent _gameFinisher;
-        [SerializeField] private GameObject[] _uIControls;
+        [SerializeField] private GameObject[] _uIToTurnOff;
         [SerializeField] private GameObject _backgroundImage;
    
         public GameFinishInterface GameFinishInterface { get; private set; }
@@ -20,7 +20,7 @@ namespace BattleCity.UI
         {
             GameFinisher gameFinisher = _gameFinisher.GameFinisher;
             
-            GameFinishInterface = new GameFinishInterface(_victoryWindow, _defeatWindow, gameFinisher, _uIControls,
+            GameFinishInterface = new GameFinishInterface(_victoryWindow, _defeatWindow, gameFinisher, _uIToTurnOff,
                 _backgroundImage);
         }
     }

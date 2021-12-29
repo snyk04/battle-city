@@ -26,6 +26,7 @@ namespace BattleCity.GameLoop
 
         private int _currentSpawnPointIndex;
 
+        public event Action LivesReduced;
         public event Action NoLivesLeft;
         
         public EnemySpawner(IReadOnlyCollection<GameObject> enemyPrefabs, IEnumerable<Vector3> spawnPoints,
@@ -68,6 +69,7 @@ namespace BattleCity.GameLoop
         private void SpawnNewEnemy()
         {
             AmountOfLives -= 1;
+            LivesReduced?.Invoke();
 
             if (AmountOfLives < 0)
             {

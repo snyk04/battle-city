@@ -9,15 +9,15 @@ namespace BattleCity.UI
         private readonly GameObject _victoryWindow;
         private readonly GameObject _defeatWindow;
 
-        private readonly GameObject[] _uIControls;
+        private readonly GameObject[] _uIToTurnOff;
         private readonly GameObject _backgroundImage;
 
         public GameFinishInterface(GameObject victoryWindow, GameObject defeatWindow, GameFinisher gameFinisher,
-            GameObject[] uIControls, GameObject backgroundImage)
+            GameObject[] uIToTurnOff, GameObject backgroundImage)
         {
             _victoryWindow = victoryWindow;
             _defeatWindow = defeatWindow;
-            _uIControls = uIControls;
+            _uIToTurnOff = uIToTurnOff;
             _backgroundImage = backgroundImage;
 
             gameFinisher.GameFinished += HandleGameFinish;
@@ -32,7 +32,7 @@ namespace BattleCity.UI
                 _ => throw new ArgumentOutOfRangeException(nameof(gameFinishType), gameFinishType, null)
             };
 
-            foreach (GameObject uIControl in _uIControls)
+            foreach (GameObject uIControl in _uIToTurnOff)
             {
                 uIControl.SetActive(false);
             }
