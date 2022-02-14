@@ -12,7 +12,3 @@ Or you can download it on your PC and play offline:
 
 ## Screenshots
 ![](https://github.com/snyk04/battle-city/blob/main/Screenshots/Screenshot%201.png)
-
-![](https://github.com/snyk04/battle-city/blob/main/Screenshots/Screenshot%202.png)
-
-![](https://github.com/snyk04/battle-city/blob/main/Screenshots/Screenshot%203.png)
