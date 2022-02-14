@@ -6,7 +6,7 @@ You can open it in browser via this [link](https://snyk04.github.io/battle-city/
 
 Or you can download it on your PC and play offline:
 1. Open "Releases" folder.
-2. Go to the latest release and download "Battle city.zip" archive.
+2. Go to the latest release and download "Battle city.7z" archive.
 3. Unzip downloaded archive.
 4. Execute Battle city.exe.
 
